@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125090328-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-125090328-1');
+    </script>
+    <title>Pixel Place : /r/Place clone with no cooldown & pixel protection</title>
+	<link rel="canonical" href="http://dev.pixelplace.io" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <meta name="description" content="Create your canvas and draw pixels with your friends, it's your very own r/place clone! Or fight for your territory on our Pixel World War map!"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!--[if IE]>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?v2=1"/>
+    <![endif]-->
+    <link rel="apple-touch-icon" sizes="180x180" >
+    <link rel="icon" type="image/png" href="favicon-v2-1.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32-v2-1.png">
+    <link rel="icon" type="image/png" sizes="16x16" >
+    <link rel="stylesheet" href="css/reset-v2-1.css">
+    <link rel="stylesheet" href="css/style-v2-324.css">
+    <link rel="stylesheet" href="css/darkmode-v2-5.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="blog/css/blog-v2-86.css">
+    <meta property="og:site_name" content="pixelplace.io">
+    <meta property="og:url" content="https://pixelplace.io/"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Pixel Place : /r/Place clone with no cooldown &amp; pixel protection"/>
+    <meta property="og:description" content="Create your canvas and draw pixels with your friends, it's your very own r/place clone! Or fight for your territory on our Pixel World War map!"/>
+    <meta property="og:image" content="www-sub/img/pp-no-black.png"/>
+    <meta property="og:locale" content="en_US"/>
+</head>
+<body>
+<a href="/" class="discord-link">Pixel Place Discord Link</a>
+<div id="notification"></div>
+<div id="cooldown">
+    <div class="box">
+        <div class="head" data-id="painting">Please wait!</div>
+        <div class="head redlight" data-id="dotting">Disabled for DOTTING!</div>
+        <div class="cd"></div>
+        <div class="foot" data-id="painting">Note: Placing cooldown can be set/disabled by the painting owner</div>
+        <div class="foot redlight" data-id="dotting">You have been disabled for DOTTING/GRIEFING the painting<br/><br/>Placing pixels randomly/everywhere on this painting is forbidden!<br/><br/>To prevent this, only place pixels like you would draw with a pen<br/><br/>This limitation is still being tested and may be removed in the future</div>
+    </div>
+</div>
+<a href="#" id="warTimer" class="go-to-coords" data-x="0" data-y="0" data-s="4" title="Click to view">
+    <div class="box">
+        <div class="head" data-id="painting">Loading...</div>
+        <div class="cd"></div>
+    </div>
+</a>
+<div id="container">
+    <div id="painting">
+        <div id="painting-grid"></div>
+        <div id="painting-zoom">
+            <div id="painting-move">
+                <a href="#" class="gold-rush-island open-gold-rush-island" title="Click to open Gold Rush Island panel"><img src="img/gold-bar.png"></a><a href="#" class="open-coin-island" id="coin-island-owner" title="Click to open Coin Island panel"></a><a href="#" class="open-coin-island" id="coin-island-owner-1" title="Click to open Coin Island panel"></a><a href="#" class="open-coin-island" id="coin-island-owner-2" title="Click to open Coin Island panel"></a><a href="#" class="open-coin-island" id="coin-island-owner-3" title="Click to open Coin Island panel"></a><div id="save-tracking"></div><div id="areas"></div><div id="placeholderMobile"></div><div class="pb_bot"></div><div class="imp"></div>
+            </div>
+        </div>
+    </div>
+    <div id="cursor"></div>
+    <div id="placeholder"></div>
+    <div id="coordinates"></div>
+    <div id="timemachine"><div><b>Time Machine</b><br/><span class="inf">Pixels placed recently</span><br/><input type="range" value="0"><div class="timestamp"></div><button class="btn pause">PAUSE</button><button class="btn restart">RESTART</button><button class="btn close">CLOSE</button><div class="check"><input type="checkbox" name="TM-display-live-tracking" checked> Display Live Tracking</div></div></div>
+    <div id="mobileplace"><div><a href="#" class="mobile-place"><span>Activate brush ?</span><div>Allow you to place pixels while moving/dragging the map</div></a><a href="#" class="mobile-alt"><img src="img/icons/i-switch.svg" alt="icon"></a></div></div>
+    <div id="mobilebomb"><a href="#"><span>FIRE ?</span></a></div>
+    <div id="tools">
+        <h1>Painting Owner Tools</h1>
+        <label>Brush size: <span class="size-preview">1</span></label>
+        <input type="range" name="tool-brush" value="0" min="1" max="100" step="1">
+        <div class="radio"><input type="radio" name="radio-protection-tool" value="0" id="radio-protection-tool-0" checked><label for="radio-protection-tool-0">Player mode</label></div>
+        <div class="radio"><input type="radio" name="radio-protection-tool" value="3" id="radio-protection-tool-3"><label for="radio-protection-tool-3">Replace</label></div>
+        <div class="radio"><input type="radio" name="radio-protection-tool" value="4" id="radio-protection-tool-4"><label for="radio-protection-tool-4">Fill</label></div>
+        <div class="radio"><input type="radio" name="radio-protection-tool" value="1" id="radio-protection-tool-1"><label for="radio-protection-tool-1">Protect</label></div>
+        <div class="inline-checkbox checkbox-protection-bg"><input type="checkbox" name="checkbox-protection-bg" id="checkbox-protection-bg"><label for="checkbox-protection-bg">Protect & replace with default background</label></div>
+        <div class="radio"><input type="radio" name="radio-protection-tool" value="2" id="radio-protection-tool-2"><label for="radio-protection-tool-2">Un-Protect</label></div>
+    </div>
+    <div id="items-list" class="no-select"></div>
+    <div id="social">
+        <div class="tabs-list"><a href="#" data-id="guild">Guild</a><a href="#" class="active" data-id="friends">Following</a><a href="#" data-id="blocked">Blocked</a></div>
+        <div class="tab-content">
+            <div class="list">
+                <table cellspacing="0" cellpadding="0"></table>
+            </div>
+            <button class="btn-guild-list no-select">Players list</button>
+            <button class="btn-guild-requests no-select">View requests</button>
+            <button class="btn-add-friend no-select">Add a Player</button>
+            <button class="btn-add-blocked no-select">Block a Player</button>
+        </div>
+    </div>
+    <div class="pixel-lottery-btn"><a href="#" class="open-pixel-lottery"><img src="img/pp-coin-still.gif"></a></div>
+    <div id="chat">
+        <div class="buttons no-select">
+            <a href="#" title="Resize chat" data-id="resize"><img src="img/icons/arrows-diagonal.svg" alt="icon"></a>
+            <a href="#" title="Hide chat" data-id="hide"><img src="img/icons/arrow-bar-left.svg" alt="icon"></a>
+        </div>
+        <a href="#" class="online open-onlineUsers"><span class="icon"></span><span class="value" title="Online users">0</span> <span class="sub-value" title="Online users on this painting (with guests)">0</span></a>
+        <a href="#" title="Visit Pixelplace Blog" class="snippet open-modal" data-target="main" data-content="blog">
+            <div class="news">PIXELPLACE NEWS</div>
+            <h1></h1>
+            <div class="description"></div>
+            <div class="btns"><button class="btn read" id="read-news">READ&nbsp;&nbsp;FULL&nbsp;&nbsp;ARTICLE</button> <button class="btn secondary" id="dismiss-news">DISMISS</button></div>
+        </a>
+        <div class="tabs no-select">
+            <a href="#" data-id="global"><span class="title"><img src="img/flags/GB.svg" class="flag-chat"> Global</span><span class="unread-count">0</span></a>
+            <a href="#" data-id="nonenglish"><span class="title">Int.</span><span class="unread-count">0</span></a>
+            <a href="#" data-id="painting"><span class="title">Painting</span><span class="unread-count">0</span></a>
+            <a href="#" data-id="guild"><span class="title">Guild</span><span class="unread-count">0</span></a>
+            <a href="#" data-id="whispers" class="wsp"><span class="title">Whispers</span></a>
+            <a href="/" target="_blank" data-id="forums" class="forums"><span class="title">Forums</span></a>
+        </div>
+        <div class="messages" data-id="global"></div>
+        <div class="messages" data-id="painting"></div>
+        <div class="messages" data-id="nonenglish"></div>
+        <div class="messages" data-id="guild"></div>
+        <div class="messages" data-id="whispers"></div>
+        <form autocomplete="off"><input type="text" name="chat" placeholder="Send a message.. " maxlength="150" autocomplete="off"></form>
+        <a href="#" class="back-to-bottom no-select">More messages below - Click to scroll down</a>
+    </div>
+    <div id="menu-buttons" class="no-select">
+        <a href="#" title="Browse paintings or create your own" class="open-modal main-menu" data-target="main" data-content="top"><img src="img/icons/menu-i.svg" alt="icon">
+            <div class="notification-bubble pulse">0</div>
+            <a href="#" data-target="main" data-content="top" class="open-modal attention">Check out thousands of other paintings or create your own!</a>
+        </a>
+        <a href="#" title="Painting Tools" data-id="painting-tools" class="grey margin-top-button open-modal" data-target="main" data-content="tools"><img src="img/icons/i-switch.svg" alt="icon">
+            <div class="notification-bubble pulse">0</div>
+        </a>
+        <a href="#" title="Shop items" class="grey margin-top-button shop-dropdown"><img src="img/icons/bomb.svg" alt="icon">
+        </a>
+        <a href="#" title="Painting Settings" data-id="painting-settings" class="green margin-top-button open-modal display-none" data-target="main" data-content="painting" data-extra="edit"><img src="img/icons/i-settings.svg" alt="icon">
+            <div class="notification-bubble pulse">0</div>
+        </a>
+        <a href="#" title="Painting Access" data-id="painting-access" class="green margin-top-button open-modal display-none" data-target="painting" data-content="pending"><img src="img/icons/i-team.svg" alt="icon">
+            <div class="notification-bubble pulse">0</div>
+        </a>
+        <a href="#" title="Painting Owner Tools" data-id="painting-owner-tools" class="green margin-top-button display-none"><img src="img/icons/layout.svg" alt="icon">
+            <div class="notification-bubble pulse">0</div>
+        </a>
+    </div>
+    <div id="menu-buttons-bottom" class="no-select">
+        <a href="#" title="Chat" data-id="chat"><img src="img/icons/i-chat.svg" alt="icon">
+            <div class="notification-bubble pulse">0</div>
+        </a>
+    </div>
+    <div id="menu-buttons-right-top" class="no-select">
+        <a href="#" title="Zoom in" data-id="zoom-in" class="grey"><img src="img/icons/i-plus.svg" alt="icon"></a>
+        <a href="#" title="Zoom out" data-id="zoom-out" class="grey"><img src="img/icons/i-minus.svg" alt="icon"></a>
+    </div>
+    <div id="menu-buttons-right-bottom" class="no-select">
+        <a href="#" title="Social" data-id="social" data-tab="friends"><img src="img/icons/friend.svg" alt="icon"><div class="notification-bubble green">0</div></a>
+    </div>
+    <a id="more-colors-above" class="no-select" href="#" title="More colors above (click or scroll down)"><img src="img/icons/arrow-up.svg" alt="icon"></a>
+    <div id="palette-buttons" class="no-select"></div>
+    <a id="more-colors-below" class="no-select" href="#" title="More colors below (click or scroll down)"><img src="img/icons/arrow-down.svg" alt="icon"></a>
+    <a href="#" id="copyright" title="Click to read Terms, Copyright &amp; more" class="open-modal" data-target="main" data-content="terms">www.pixelplace.io</a>
+</div>
+<div id="loader">
+    <span class="c-loader">
+        <span class="c-loader-inner"></span>
+    </span>
+    <div class="text">Loading</div>
+</div>
+<div id="loader-canvas">
+        <span class="c-loader">
+            <span class="c-loader-inner"></span>
+        </span>
+    <div class="text">Loading</div>
+</div>
+<div id="modals">
+    <a href="#" title="More content below" class="more-content-below"><img src="img/icons/arrow-down.svg" alt="icon"></a>
+    <div class="box" data-id="captcha">
+        <div class="box-header"><img src="img/icons/i-face-id-modal.svg" alt="icon" class="classic"> Human Verification</div>
+        <div class="box-content" data-id="captcha">
+            <div>
+                <h1>Please complete the captcha below</h1>
+                <div id="recaptcha" class="g-recaptcha margin-top" data-sitekey="6LcZpc8UAAAAAHHJCAYkiNoWaVCgafT_Juzbcsnr" data-callback="VALIDATE_CAPTCHA" data-badge="inline"></div>
+                <h1 class="margin-top">Why?</h1>
+                <p>It helps protect PixelPlace.io from spam and abuse. A Captcha is a turing test to tell human and bots apart. It is easy for humans to solve, but hard for bots/robots and other malicious automated software to figure out.</p>
+                <h1>Need help?</h1>
+                <p>If you have trouble completing the Captcha, please contact us at <b>support@pixelplace.io</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="welcome">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-header"><img src="img/pixelplace-io-logo-tiny.png" alt="icon" class="classic"> Welcome to Pixelplace.io!</div>
+        <div class="box-content" data-id="welcome">
+            <div>
+                <p class="">Pixelplace is a real-time multiplayer game where you place colored pixels on giant paintings.</p>
+                <div class="ytframe"></div>
+                <h1>How it works</h1>
+                <p class="margin-bottom-2"><b>Pick a color (on the right panel), and click on a painting to start placing pixels</b></p>
+                <div class="desktop">
+                    <p>
+                        - Use <span class="hotkey">Left Click</span> or hold <span class="hotkey">SPACE BAR</span> to draw pixels
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Right Click</span> to move the painting
+                    </p>
+                    <p>
+                        - Use <span class="hotkey">Scroll Wheel</span> to zoom
+                    </p>
+                    <p>
+                        - Use <span class="hotkey">Middle Click</span> to pick a color from the painting
+                    </p></div>
+                <div class="mobile">
+                    <p>
+                        - Hold <span class="hotkey">1 finger</span> to move painting
+                    </p>
+                    <p>
+                        - Zoom with <span class="hotkey">2 fingers</span>
+                    </p>
+                    <p>
+                        <b>We recommend to play Pixelplace.io on a computer screen to get the best experience</b>
+                    </p>
+                </div>
+                <h1 class="margin-top">Paintings list</h1>
+                <p>Check out thousands of <a href="#" class="open-modal" data-target="main" , data-content="top">user created paintings</a> or <a href="#" class="open-modal" data-target="main" , data-content="painting">create your own</a> and bring your friends to draw in real-time on it.</p>
+                <h1 class="margin-top">Cookie Consent</h1>
+                <p>By continuing to browse Pixelplace.io, you agree to the storing of cookies on your device to enhance your site experience and for analytical purposes. More information available on our <a href="#" title="Terms" class="grey open-modal" data-target="main" data-content="terms">Terms</a> page. If you do not agree please leave the site immediately.</p>
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="welcome-choose">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-header"><img src="img/pixelplace-io-logo-tiny.png" alt="icon" class="classic">Try other game modes!</div>
+        <div class="box-content" data-id="welcome-choose">
+            <div>
+                <p class="mt-0">Discover different versions of <b>Pixel World War</b> along with a lot of official <b>artistic paintings</b>.</p>
+                <a href="/" class="sbs" target="_blank">
+                    <div>
+                        <div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/11.png');background-position: 24% 39%;background-size: 200%;"></div>
+                    </div>
+                    <div>
+                        <h1>/r/place #3</h1>
+                        <p class="margin-bottom-2">r/place #2 is about to end, the story continue here.<br/>Make pixel arts on this 3000 x 3000 pixels canvas!</p>
+                    </div>
+                </a>
+                <a href="/" class="sbs" target="_blank">
+                    <div>
+                        <div class="welcome-choose-img" style="background-image: url('canvas/8.png');background-position: 24% 39%;background-size: 200%;"></div>
+                    </div>
+                    <div>
+                        <h1>MVP - Pixel World War</h1>
+                        <p class="margin-bottom-2">Enjoy the experience of not getting dotted every 5 seconds, having protected art, and being able to create many nations in a moderated environment. You have to have 15,000 pixels in order to join this map.</p>
+                    </div>
+                </a>
+                <a href="/" class="sbs" target="_blank">
+                    <div>
+                        <div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/13.png');background-position: 24% 39%;background-size: 200%;"></div>
+                    </div>
+                    <div>
+                        <h1>Anarchy - Pixel World War</h1>
+                        <p class="margin-bottom-2">It's literally anarchy, no moderation in sight. There are no rules, no limits to BOTs, etc... as long as it's legal, it's allowed.</p>
+                    </div>
+                </a>
+                <p class="pt-20">We also have a lot of artistic paintings like <b>/r/place</b></p>
+                <div class="sbs-list">
+                    <a href="/" target="_blank"><div class="welcome-choose-img" style="background-image: url('canvas/1.png');background-position: 24% 39%;background-size: 200%;"></div></a>
+                    <a href="/" target="_blank"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/2.png');background-position: 24% 39%;background-size: 200%;"></div></a>
+                    <a href="/" target="_blank"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/3.png');background-position: 24% 39%;background-size: 200%;"></div></a>
+                </div>
+                <div class="sbs-list">
+                    <a href="/" target="_blank"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/4.png');background-position: 24% 39%;background-size: 200%;"></div></a>
+                    <a href="/" target="_blank"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/5.png');background-position: 24% 39%;background-size: 200%;"></div></a>
+                    <a href="/" target="_blank"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/6.png');background-position: 24% 39%;background-size: 200%;"></div></a>
+                </div>
+                <p class="pt-20">Paintings made by <b><span class="youtube-c">Youtubers</span></b> & <b><span class="twitch-c">Twitch</span></b> Streamers</p>
+                <div class="sbs-list">
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/4569.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">xQcOW #1</div></a>
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/4694.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">xQcOW #2</div></a>
+                    <a href="/" target="_blank" class="youtube-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/17721.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Drew Durnil</div></a>
+                </div>
+                <div class="sbs-list">
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/7372.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Nymn #1</div></a>
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/26919.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Nymn #2</div></a>
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/27365.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Nymn #3</div></a>
+                </div>
+                <div class="sbs-list">
+                    <a href="/" target="_blank" class="youtube-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/31846.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Zade</div></a>
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/31494.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Swaggybarkk</div></a>
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/27082.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Redshell</div></a>
+                </div>
+                <div class="sbs-list">
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/12271.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Wonderhell - Wired</div></a>
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/28773.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Bagherajones #1</div></a>
+                    <a href="/" target="_blank" class="twitch-c"><div class="welcome-choose-img" style="background-image: url('https://dev.pixelplace.io/canvas/10762.png');background-position: 24% 39%;background-size: 200%;"></div><div class="na">Bagherajones #2</div></a>
+                </div>
+            </div>
+            <p class="pt-20">There is lots more to see! Check out user created paintings or <a href="#" class="open-modal" data-target="main" data-content="painting">create your own!</a></p>
+            <button class="open-modal" title="Browse paintings" data-target="main" data-content="top">Browse all paintings</button>
+        </div>
+    </div>
+    <div class="box" data-id="alert">
+        <div class="box-header"><img src="img/pixelplace-io-logo-tiny.png" alt="icon" class="classic"> <span>NSFW</span></div>
+        <div class="box-content" data-id="norules">
+            <div>
+                <h1>No rules (Anarchy!)</h1>
+                <p class="">This special painting won't be moderated by Pixelplace and you can do whatever you want on it (unless it's illegal, advertising or dangerous content)</p>
+                <h1>NSFW</h1>
+                <p class="">This painting may also include sensitive content, including violent and adult content.</p>
+                <p class="">Please confirm that you are over 18 and wish to continue.</p>
+                <button class="nsfw-continue padding-1 close-modal">I understand and I am over 18!</button>
+            </div>
+        </div>
+        <div class="box-content" data-id="nsfw">
+            <div>
+                <p class="">This painting may include sensitive content, including violent and adult content.</p>
+                <p class="">Please confirm that you are over 18 and wish to continue.</p>
+                <button class="nsfw-continue padding-1 close-modal">I am over 18!</button>
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="main">
+        <a href="https://discord.gg/xcFJ6nY" target="_blank" class="discord-pp"><img src="img/discord.svg" alt="icon" width="26"></a>
+        <a href="https://reddit.com/r/PixelPlace/" target="_blank" class="reddit-pp"><img src="img/reddit.svg" alt="icon" width="26"></a>
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-header special-padding">
+            <div class="margin-top"><span></span><a href="#" data-id="guild" class="open-guild" data-tag=""></a><div class="bull">&bull;</div><a href="#" data-id="username" class="open-profile" data-profile=""></a><a href="#" class="submit-button logout" data-id="logout" title="Logout"><img src="img/icons/square-x.svg" height="24"></a><a href="#" class="coins-infos get-more-coins"><div class="pp-coin-1"><img src="img/pp-coin-still.gif"></div><span>0 coins</span></a></div>
+            <button class="open-modal padding-1" data-target="auth" data-content="login" data-extra="">LOG IN</button>
+            <button class="open-modal padding-2" data-target="auth" data-content="register" data-extra="">CREATE ACCOUNT</button>
+        </div>
+        <ul class="box-menu ml-24">
+            <li><a href="#" title="Blog / News" data-content="blog">News</a></li>
+            <li><a href="#" title="Paintings" data-content="top">Paintings</a></li>
+            <li><a href="#" title="Guilds" data-content="guilds">Guilds</a></li>
+            <li><a href="#" title="Shop &amp; Premium" data-content="shop">Shop
+                <div class="pp-coin"><img src="img/pp-coin-pause.gif" width="24"></div>
+            </a></li>
+            <li><a href="#" title="Account" data-content="account">Account</a></li>
+            <li><a href="#" title="Terms" data-content="terms">Terms</a></li>
+        </ul>
+        <ul class="box-sub-menu" data-id="top">
+            <li><a href="#" title="Browse paintings" data-content="top">Browse</a></li>
+            <li><a href="#" title="Painting Tools" data-content="tools">Settings / Tools</a></li>
+            <li><a href="#" title="Top Users" data-content="top-users">Top Users</a></li>
+            <li><a href="#" title="Create new painting" class="bluePulse" data-content="painting" data-extra="create">Create New Painting</a></li>
+            <li><a href="#" title="Edit painting settings" class="open-modal" data-target="main" data-content="painting" data-extra="edit">Edit Current Painting</a></li>
+        </ul>
+        <div class="box-content" data-id="top">
+            <div>
+                <h1>My Paintings</h1>
+                <div class="paintings-list" data-id="owned"></div>
+                <h1 style="display: none">Pixelplace Paintings</h1>
+                <div class="paintings-list" data-id="pixelplace" style="display: none"></div>
+                <h1>Featured Paintings</h1>
+                <div class="paintings-list" data-id="featured"></div>
+                <h1>Users Paintings</h1>
+                <form id="painting-list" class="no-select">
+                    <div>
+                        <div class="inline-checkbox"><input type="checkbox" id="filter-1" checked><label for="filter-1">Public</label></div>
+                        <div class="inline-checkbox"><input type="checkbox" id="filter-2" checked><label for="filter-2">Approval</label></div>
+                        <div class="inline-checkbox"><input type="checkbox" id="filter-3" checked><label for="filter-3">Owner</label></div>
+                        <div class="inline-checkbox"><input type="checkbox" id="filter-4" checked><label for="filter-4">Disabled</label></div>
+                        <div class="inline-checkbox"><input type="checkbox" id="filter-5" checked><label for="filter-5">World War</label></div>
+                        <div class="inline-checkbox"><input type="checkbox" id="filter-6" checked><label for="filter-6">Cooldown</label></div>
+                        <div class="display-block filterPaintings"><input type="text" name="filter-paintings" placeholder="Search (TOP 300 only)"></div>
+                    </div>
+                </form>
+                <div class="paintings-list" data-id="users"></div>
+                <form id="form-painting-load-more-list">
+                    <button id="submit-painting-load-more-list" class="submit-form secondary align-center load-more">LOAD MORE PAINTINGS</button>
+                </form>
+            </div>
+        </div>
+        <div class="box-content" data-id="top-users">
+            <div class="text-center">
+                <div class="text-center last-update ">Updated every 12 minutes</div>
+                <div class="top">
+                    <h1>Pixels Placed</h1>
+                    <div>Players with the most pixels placed</div>
+                    <table cellspacing="0" cellpadding="0" data-id="pixels"></table>
+                </div><div class="top">
+                <h1>Veteran Players</h1>
+                <div>Oldest accounts that are still active</div>
+                <table cellspacing="0" cellpadding="0" data-id="joined"></table>
+            </div><div class="top">
+                <h1>True Generosity</h1>
+                <div>Best ratio of gifts sent vs gifts received</div>
+                <table cellspacing="0" cellpadding="0" data-id="gift"></table>
+            </div><div class="top">
+                <h1>Followers</h1>
+                <div>Active players with the most followers</div>
+                <table cellspacing="0" cellpadding="0" data-id="followers"></table>
+            </div>
+            </div>
+        </div>
+        <div class="box-content" data-id="tools">
+            <div>
+                <form id="form-tools">
+                    <h1>Painting</h1>
+                    <a href="#" class="input-checkbox specialcheck" data-name="tools-mobile-alt">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Alternate drawing</div>
+                            <div class="content">Place pixels by tapping on the painting with one finger rather than using the brush button to draw while dragging
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-tracking">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Live Users tracking <span href="#" class="premium-only">Premium</span></div>
+                            <div class="content">Display active users on the painting (next to their last pixel placed)
+                                <div class="shift">Hotkey: <span class="hotkey">Shift</span> + <span class="hotkey">T</span></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-save-tracking">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Save Users tracking <span href="#" class="premium-only">Premium</span></div>
+                            <div class="content">Save pixels and their owners into your browser cache so you can check later who placed pixels on a given position. Use SHIFT + LEFT CLICK on the painting to get cached usernames (if there is)
+                                <div class="shift">Hotkey: <span class="hotkey">Shift</span> + <span class="hotkey">L</span></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-bot">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">BOT <span href="#" class="premium-only">Premium</span></div>
+                            <div class="content">Automatically draw uploaded images on the painting
+                                <div class="shift">Hotkey: <span class="hotkey">Shift</span> + <span class="hotkey">B</span></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-grid">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Pixel Grid</div>
+                            <div class="content">Display a pixel grid on top of the painting
+                                <div class="shift">Hotkey: <span class="hotkey">Shift</span> + <span class="hotkey">H</span></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-lock-painting">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Lock Movement</div>
+                            <div class="content">Prevent the painting from moving
+                                <div class="shift">Hotkey: <span class="hotkey">Shift</span> + <span class="hotkey">M</span></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-protection-flashing">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Protection flashing</div>
+                            <div class="content">Flash protected areas when you try to draw on it.<br/>Painting owners can protect parts of the painting to prevent griefing</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-zoom">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Zoom buttons</div>
+                            <div class="content">Display zoom buttons at the top right of your screen</div>
+                        </div>
+                    </a>
+                    <button class="open-modal secondary" data-target="main" data-content="painting" data-extra="create">CREATE YOUR OWN PAINTING</button>
+                    <button class="secondary submit-button" data-id="download-painting">DOWNLOAD PAINTING</button>
+                    <h1>Chat</h1>
+                    <a href="#" class="input-checkbox" data-name="tools-display-notifications">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Display notifications</div>
+                            <div class="content">Display chat pop-up notifications</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-friends-notifications">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Display friends notifications</div>
+                            <div class="content">Display notifications when a friend goes online/offline</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-guilds">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Display Guild tags</div>
+                            <div class="content">Display Guild tags in chat</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-display-timestamp">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Display Timestamps</div>
+                            <div class="content">Display a timestamp for each individual message in chat</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-checkbox" data-name="tools-invisible-mode">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Invisible mode</div>
+                            <div class="content">Your followers won't be notified and no one will see you online. Note: This option will disable your social panel</div>
+                        </div>
+                    </a>
+                </form>
+                <h1>Tips</h1>
+                <div>
+                    <p>
+                        - Use <span class="hotkey">Left Click</span> to draw pixels
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Right Click</span> or <span class="hotkey">←</span> <span class="hotkey">↑</span> <span class="hotkey">→</span> <span class="hotkey">↓</span> to move the painting
+                    </p>
+                    <p>
+                        - Use <span class="hotkey">Scroll Wheel</span> to zoom
+                    </p>
+                    <p>
+                        - Use <span class="hotkey">Middle Click</span> to pick a color from the painting
+                    </p>
+                    <p>
+                        - When you zoom or move the painting, your position is saved in your browser address bar, share the url to others players to let them see where you are painting!
+                    </p>
+                    <p>
+                        - Click on a username to view its profile (you can even see where he is drawing <a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a>)
+                    </p>
+                    <p>
+                        - Press <span class="hotkey">Enter</span> to open the chat input
+                    </p>
+                    <p>
+                        - Username colors in the chat reflect their selected color
+                    </p>
+                    <p>
+                        - <span class="hotkey">Left Click</span> on a username to display its profile, guild and stats
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Shift</span> + <span class="hotkey">Left Click</span> on a username to mention it in the chat
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Shift</span> +  <span class="hotkey">T</span> to enable Live users tracking<a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a>
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Shift</span> +  <span class="hotkey">C</span> to open or close Chat panel
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Shift</span> +  <span class="hotkey">G</span> to open or close Guild panel
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Shift</span> +  <span class="hotkey">H</span> to show Pixel grid
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Shift</span> +  <span class="hotkey">F</span> to open or close Social panel
+                    </p>
+                    <p>
+                        - Hold <span class="hotkey">Shift</span> +  <span class="hotkey">*</span> to display or hide interface
+                    </p>
+                    <p>
+                        - Press <span class="hotkey">+</span> to zoom in
+                    </p>
+                    <p>
+                        - Press <span class="hotkey">-</span> to zoom out
+                    </p>
+                </div>
+                <h1>Chat icons</h1>
+                <div>
+                    <p><img src="img/badges/admin.png" width="18" class="tip-icon"> Admin</p>
+                    <p><img src="img/badges/moderator.png" width="18" class="tip-icon"> Moderator</p>
+                    <p><img src="img/badges/chat-moderator.png" width="18" class="tip-icon">Chat moderator</p>
+                    <p><img  width="18" class="tip-icon">Former Global moderator</p>
+                    <p><img src="img/badges/1-year.png" width="18" class="tip-icon"> Premium subscriber (1 year plan)</p>
+                    <p><img src="img/badges/3-months.png" width="18" class="tip-icon"> Premium subscriber (3 months plan)</p>
+                    <p><img src="img/badges/1-month.png" width="18" class="tip-icon"> Premium subscriber (1 month plan)</p>
+                    <p><img src="img/badges/nitro.png" width="18" class="tip-icon"> Nitro (Discord booster)</p>
+                    <p><img src="img/badges/vip.png" width="18" class="tip-icon"> VIP (Given by admins & moderators to a very few amazing people)</p>
+                    <p><img src="img/badges/bread.png" width="18" class="tip-icon"> Discord Bread</p>
+                    <p><img src="img/badges/gifter.png" width="18" class="tip-icon"> Top 3 Gifter</p>
+                    <p><img src="img/badges/booster.png" width="18" class="tip-icon"> Top Discord Booster</p>
+                    <p><img src="img/badges/painting-owner.png" width="18" class="tip-icon"> Painting Owner</p>
+                    <p><img src="img/badges/painting-moderator.png" width="18" class="tip-icon"> Painting Moderator</p>
+                    <p><img src="img/badges/snowball.png" width="18" class="tip-icon"> OH OH OH!</p>
+                </div>
+                <h1>Guild points</h1>
+                <div>
+                    <p>+10 point for each guild member</p>
+                    <p>+20 points for each member recently active on a Painting</p>
+                    <p>+20 points for each member active in the last 24h on a Painting</p>
+                    <p>+20 to 100 points (depending of member total activity since he joined) for each member active the last few days on a Painting</p>
+                    <p>+X battle points (war reward)</p>
+                </div>
+            </div>
+        </div>
+        <div class="box-content" data-id="painting">
+            <div>
+                <button class="open-modal align-center" data-target="main" data-content="painting" data-extra="create">CREATE NEW PAINTING?</button>
+                <button class="open-modal align-center" data-target="main" data-content="painting" data-extra="edit">EDIT CURRENT PAINTING?</button>
+                <h1><span>Create Painting</span></h1>
+                <form id="form-settings-painting">
+                    <input type="hidden" name="id" value="">
+                    <label class="margin-top-reset">Title<span class="required">*</span></label>
+                    <input type="text" name="title" value="" placeholder="Painting title" maxlength="30">
+                    <div class="input-error" data-name="title"></div>
+                    <label>Description</label>
+                    <textarea name="description" placeholder="Painting description" maxlength="250" rows="3"></textarea>
+                    <div class="input-error" data-name="description"></div>
+                    <label>Painting size<span class="required">*</span> <a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a></label>
+                    <input type="number" name="sizeX" value="100" class="type-size" min="0" max="2000" placeholder="Width">
+                    <div class="type-size-x">x</div>
+                    <input type="number" name="sizeY" value="100" class="type-size" min="0" max="2000" placeholder="Height">
+                    <div class="input-error" data-name="size"></div>
+                    <label>Placing cooldown for other players (in seconds)<span class="required">*</span> <span class="description">Seconds players have to wait between each pixel placed.</span></label>
+                    <input type="number" name="cooldown" value="5" min="0" max="3600" class="type-cooldown">
+                    <div class="input-error" data-name="cooldown"></div>
+                    <!--<label>Brush size (in pixels)<span class="required">*</span> <a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a></label>
+                    <input type="range" name="brush" value="1" min="1" max="10" step="1"><div class="brush-size">1 x 1</div>
+                    <div class="input-error" data-name="brush"></div>-->
+                    <label>Access<span class="required">*</span></label>
+                    <input type="hidden" name="access" value="1">
+                    <a href="#" class="input-radio selected" data-name="access" data-value="1">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header public">Public</div>
+                            <div class="content">Everyone can place pixels on your painting</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-radio" data-name="access" data-value="2">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header approval">Approval <span class="premium-only" data-target="main" data-content="shop">Premium</span></div>
+                            <div class="content">Players must be approved before being able to place pixels.<br/>You can also give moderation rights to some of your players to help you manage this</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-radio" data-name="access" data-value="3">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header owner">Owner <span class="premium-only" data-target="main" data-content="shop">Premium</span></div>
+                            <div class="content">Only you are allowed to place pixels.</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-radio" data-name="access" data-value="4">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header guild">Guild <span class="premium-only" data-target="main" data-content="shop">Premium</span></div>
+                            <div class="content">Players must be in the same guild as you to be able to place pixels (you don't need to be the guild leader)</div>
+                        </div>
+                    </a>
+                    <a href="#" class="input-radio" data-name="access" data-value="5">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header twitch">Twitch Subscribers <span class="premium-only" data-target="main" data-content="shop">Premium</span></div>
+                            <div class="content">Players must be subscribed to your Twitch channel to be able to place pixels. Other players will still be able to request your approval. You can assign moderators to help you manage this.</div>
+                        </div>
+                    </a>
+                    <div class="input-error" data-name="access"></div>
+                    <label class="autoAcceptTime">Auto Accept Time (in minutes) <a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a><span class="description">Accounts must be older than this setting to get instant access to the painting. Leave it to 0 to disable auto accept feature</span></label>
+                    <input type="number" name="autoAcceptTime" value="0" min="0" max="3600" class="type-cooldown">
+                    <div class="input-error" data-name="autoAcceptTime"></div>
+                    <label class="discordRequired">Discord Required</label>
+                    <input type="hidden" name="discord-required" value="0">
+                    <a href="#" class="input-checkbox" data-name="discord-required">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Discord account required</div>
+                            <div class="content">Players will have to connect their discord account before being able to make a request (exceptions: Twitch/Guild fast access)</div>
+                        </div>
+                    </a>
+                    <div class="input-error" data-name="rules"></div>
+                    <label class="rules">Rules</label>
+                    <textarea name="rules" class="rules" placeholder="Painting rules (displayed on access form request)" maxlength="1000" rows="3"></textarea>
+                    <div class="input-error" data-name="rules"></div>
+                    <label>Background color <a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a></label>
+                    <input type="hidden" name="background" value="0">
+                    <div class="settings-painting-palette" data-name="background"></div>
+                    <div class="input-error" data-name="background"></div>
+                    <label>Allowed colors <a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a></label>
+                    <input type="hidden" name="allowedColors" value="">
+                    <div class="settings-painting-palette" data-name="allowedColors"></div>
+                    <div class="input-error" data-name="allowedColors"></div>
+                    <label class="template-label">Template <a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a></label>
+                    <input type="hidden" name="template" value="0">
+                    <a href="#" data-name="template" class="template selected" data-id="0"><img src="img/templates/previews/0.png" width="150"></a>
+                    <a href="#" data-name="template" class="template" data-id="1" data-x="2500" data-y="2088"><img src="img/templates/previews/1.png" width="150"></a>
+                    <a href="#" data-name="template" class="template" data-id="2" data-x="2500" data-y="2088"><img src="img/templates/previews/2.png" width="150"></a>
+                    <a href="#" data-name="template" class="template" data-id="3" data-x="2028" data-y="1208"><img src="img/templates/previews/3.png" width="150"></a>
+                    <a href="#" data-name="template" title="Mexico Template made by KillerAndMX#0592" class="template" data-id="4" data-x="2400" data-y="1800"><img src="img/templates/previews/4.png" width="150"></a>
+                    <a href="#" data-name="template" title="China Template made by AnXavers#6519" class="template" data-id="5" data-x="2272" data-y="1920"><img  width="150"></a>
+                    <a href="#" data-name="template" title="Russia Template made by AnXavers#6519" class="template" data-id="6" data-x="2284" data-y="1260"><img  width="150"></a>
+                    <label>Areas protection</label>
+                    <input type="hidden" name="protection" value="0">
+                    <a href="#" class="input-checkbox" data-name="protection">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Enable protection tool <span href="#" class="premium-only">Premium</span></div>
+                            <div class="content">This option adds a new tool that lets you protect some areas on the painting. Once protected, theses areas cannot be overwritten by anyone. You can also unprotect theses later on.
+                            </div>
+                        </div>
+                    </a>
+                    <label>Shop items</label>
+                    <input type="hidden" name="shop-items" value="0">
+                    <a href="#" class="input-checkbox" data-name="shop-items">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Allow Shop Items</div>
+                            <div class="content">Allow Pixel Missiles & Bombs to be used on your painting.
+                            </div>
+                        </div>
+                    </a>
+                    <label>NSFW</label>
+                    <input type="hidden" name="nsfw" value="0">
+                    <a href="#" class="input-checkbox" data-name="nsfw">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">NSFW</div>
+                            <div class="content">Allow "Not Safe For Work" content on your painting</div>
+                        </div>
+                    </a>
+                    <label class="replacePainting">Copy and Replace Painting <a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a><span class="description">Copy one of your existing painting by entering its ID or URL in the field below.</span></label>
+                    <input type="text" name="replacePainting" value="" class="replacePainting" placeholder="(optional) Enter a painting URL or ID to copy">
+                    <div class="input-error" data-name="replacePainting"></div>
+                    <button id="submit-settings-painting" class="submit-form">SAVE CHANGES</button>
+                </form>
+                <form id="form-painting-delete">
+                    <button id="submit-painting-delete" class="submit-form alert">DELETE PAINTING</button>
+                </form>
+            </div>
+        </div>
+        <div class="box-content" data-id="guilds">
+            <div>
+                <button class="open-modal align-center" data-target="main" data-content="guilds-store" data-extra="create">CREATE YOUR GUILD</button>
+                <button class="open-modal align-center" data-target="main" data-content="guilds-store" data-extra="edit">EDIT GUILD</button>
+                <button class="btn alert no-mt align-center guild-quit">LEAVE YOUR GUILD</button>
+                <input type="text" name="filter-guilds" class="margin-top margin-bottom" placeholder="Guild search (TOP 100 only)">
+                <div class="rows big-list">
+                </div>
+                <form id="form-guilds-load-more">
+                    <button id="submit-guilds-load-more" class="submit-form secondary align-center load-more">LOAD MORE GUILDS</button>
+                </form>
+            </div>
+        </div>
+        <div class="box-content" data-id="guilds-store">
+            <div>
+                <h1><span>New Guild</span></h1>
+                <form id="form-guild-store" class="no-mb">
+                    <input type="hidden" name="id" value="">
+                    <label class="margin-top-reset">Name<span class="required">*</span></label>
+                    <input type="text" name="name" value="" placeholder="Name" maxlength="30">
+                    <label class="margin-top tag">Tag<span class="required">*</span></label>
+                    <input type="text" name="tag" value="" placeholder="Tag, 4 uppercase letters, can't be edited later" maxlength="4">
+                    <label>Description</label>
+                    <textarea name="description" placeholder="Description" maxlength="250" rows="3"></textarea>
+                    <input type="hidden" name="auto-accept" value="0">
+                    <label>Ranks<span class="description">Guild ranks can be assigned to guild members at the bottom of their profile</span></label>
+                    <div class="guild-ranks">
+                        <div>
+                            <label>Rank 1 (default)</label>
+                            <input type="text" name="rank_1" value="Member" placeholder="Member (default rank)" maxlength="20">
+                            <div class="inline-checkbox"><input type="checkbox" name="rank_1_emblem"><label class="no-select">Edit emblem</label></div>
+                            <div class="inline-checkbox"><input type="checkbox" name="rank_1_members"><label class="no-select">Manage members</label></div>
+                        </div>
+                        <div>
+                            <label>Rank 2 </label>
+                            <input type="text" name="rank_2" value="Veteran" placeholder="Veteran" maxlength="20">
+                            <div class="inline-checkbox"><input type="checkbox" name="rank_2_emblem"><label class="no-select">Edit emblem</label></div>
+                            <div class="inline-checkbox"><input type="checkbox" name="rank_2_members"><label class="no-select">Manage members</label></div>
+                        </div>
+                        <div>
+                            <label>Rank 3 </label>
+                            <input type="text" name="rank_3" value="Officer" placeholder="Officer" maxlength="20">
+                            <div class="inline-checkbox"><input type="checkbox" name="rank_3_emblem"><label class="no-select">Edit emblem</label></div>
+                            <div class="inline-checkbox"><input type="checkbox" name="rank_3_members"><label class="no-select">Manage members</label></div>
+                        </div>
+                    </div>
+                    <label>Applications</label>
+                    <a href="#" class="input-checkbox" data-name="auto-accept">
+                        <div>
+                            <div class="input">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="header">Auto accept applications</div>
+                            <div class="content">Allow everyone to join your guild without requesting approval</div>
+                        </div>
+                    </a>
+                    <button id="submit-guild-store" class="submit-form">CREATE GUILD</button>
+                </form>
+                <form id="form-guild-transfer" class="inline no-mt">
+                    <button id="submit-guild-transfer" class="submit-form alert no-mt">TRANSFER OWNERSHIP</button>
+                </form>
+                <form id="form-guild-delete" class="inline no-mt">
+                    <button id="submit-guild-delete" class="submit-form alert no-mt">DELETE GUILD</button>
+                </form>
+            </div>
+        </div>
+        <div class="box-content" data-id="shop">
+            <div>
+                <div class="prem-box margin-top">
+                    <div class="prem-desc">
+                        <div class="header"><img src="img/pixelplace-io-logo-tiny.png" height="24"> <span>Premium Subscription</span></div>
+                        <div class="content"><div class="left">
+                            <div>Live users tracking<span>Display players names next to where they place pixels (on all paintings) <a  target="_blank">Click here for a demo</a></span></div>
+                            <div>BOT<span>Automatically draw an uploaded image on the painting</span></div>
+                            <div>No Ads<span>Enjoy an ad-free experience</span></div>
+                            <div>Paintings up to 3000x3000<span>Create giant paintings</span></div>
+                            <div>Access setting<span>Manage your painting access (Approval, Guild, Owner, Twitch)</span></div>
+                            <div>Painting protection tool<span>Protect, Un-protect or Replace big areas on owned paintings</span></div>
+                        </div><div class="right">
+                            <div>Painting colors setting<span>Limit your painting colors palette or choose a background one</span></div>
+                            <div style="display: none">4 new colors <div class="prem-colors"><span></span><span></span><span></span><span></span></div><span>Exclusive to premium subscribers</span></div>
+                            <div>Paintings templates<span>Make your own Pixel World War</span></div>
+                            <div>Access to Premium island<span>You deserve a special island.</span></div>
+                            <div>Premium chat & profile icons<span>Stand out in the chat!</span></div>
+                            <div><button class="premium-subscribe" data-id="subscribe">From<span>$1<span>.80</span></span>/ month<div class="cb"><img src="img/cb.png"></div></button><a href="#" target="_blank" title="Click to cancel your subscription next renewal" class="premium-subscribed btn"></a><a href="#" class="premium-subscribe-alt" data-id="subscribe">Or buy more premium time</a></div></div></div>
+                    </div>
+                    <div class="prem-checkout">
+                        <div class="header"><img src="img/pixelplace-io-logo-tiny.png" height="24"> <span>Choose plan</span></div>
+                        <div class="content">
+                            <div class="plans">
+                                <div class="plan-block" data-plan="3">
+                                    <div class="radio"><span></span></div>
+                                    <div class="type"><b>1-year plan</b></div>
+                                    <div class="price"><b>$1.80</b></div>
+                                    <div class="renew">per month</div>
+                                    <div class="discount">Save 40%</div>
+                                    <div class="details"><span class="red">$36.00</span> $21.60 billed<br>every year</div>
+                                </div>
+                                <div class="plan-block plan-selected" data-plan="2">
+                                    <div class="radio"><span></span></div>
+                                    <div class="type"><b>3-month plan</b></div>
+                                    <div class="price"><b>$2.40</b></div>
+                                    <div class="renew">per month</div>
+                                    <div class="discount">Save 20%</div>
+                                    <div class="details"><span class="red">$9.00</span> $7.20 billed<br>every 3 months</div>
+                                </div>
+                                <div class="plan-block" data-plan="1">
+                                    <div class="radio"><span></span></div>
+                                    <div class="type"><b>1-month plan</b></div>
+                                    <div class="price"><b>$3.00</b></div>
+                                    <div class="renew">per month</div>
+                                    <div class="discount">Save 0%</div>
+                                    <div class="details">$3.00 billed<br>every month</div>
+                                </div>
+                            </div>
+                            <div class="disclaimer">Stop your subscription at any time.<br/>Upfront payment.</div>
+                            <button class="btn align-center open-checkout-method" id="checkout-sub">CONTINUE TO PAYMENT</button>
+                            <button class="align-center secondary cancel-premium-subscribe">CANCEL</button>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="pb-0">Items</h1>
+                <p>Items can be used on paintings (that allow it) or sent to others players as a gift.</p>
+                <div class="shop-items-list">
+                </div>
+                <h1 class="coins-title">PixelPlace<div class="pp-coin-1"><img src="img/pp-coin-pause.gif" width="32"></div>Coins</h1>
+                <div>
+                    <a href="#" class="prem-coins buy-coins-btn open-checkout-method" data-index="4" data-coins="1" title="Click to buy"><div class="title">1 000<div>COINS</div></div><div class="logo"><img src="img/pp-coin-still.gif" width="74" class="pixelate"></div><div class="title-bt">1 000 coins</div><div class="btn buy-item"><span>$3.49</span></div></a>
+                    <a href="#" class="prem-coins buy-coins-btn open-checkout-method" data-index="5" data-coins="1" title="Click to buy"><div class="title">1 800<div>+ 200 BONUS</div></div><div class="logo"><img src="img/pp-coin-still.gif" width="74" class="pixelate"></div><div class="title-bt">2 000 coins</div><div class="btn buy-item"><span>$5.49</span></div></a>
+                    <a href="#" class="prem-coins buy-coins-btn open-checkout-method" data-index="6" data-coins="1" title="Click to buy"><div class="title">4 000<div>+ 500 BONUS</div></div><div class="logo"><img src="img/pp-coin-still.gif" width="74" class="pixelate"></div><div class="title-bt">4 500 coins</div><div class="btn buy-item"><span>$10.99</span></div></a>
+                    <a href="#" class="prem-coins buy-coins-btn open-checkout-method" data-index="7" data-coins="1" title="Click to buy"><div class="title">10 000<div>+ 1 500 BONUS</div></div><div class="logo"><img src="img/pp-coin-still.gif" width="74" class="pixelate"></div><div class="title-bt">11 500 coins</div><div class="btn buy-item"><span>$21.99</span></div></a>
+                    <a href="#" class="prem-coins buy-coins-btn open-checkout-method" data-index="8" data-coins="1" title="Click to buy"><div class="title">28 500<div>+ 4 500 BONUS</div></div><div class="logo"><img src="img/pp-coin-still.gif" width="74" class="pixelate"></div><div class="title-bt">33 000 coins</div><div class="btn buy-item"><span>$54.99</span></div></a>
+                    <button class="btn display-block open-modal secondary freecoins" data-target="main" data-content="freecoins">Get free <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div> coins</button>
+                </div>
+                <h1>Your items</h1>
+                <div class="user-items-list">
+                </div>
+            </div>
+        </div>
+        <div class="box-content" data-id="freecoins">
+            <div>
+                <h1 class="coins-title">Free<div class="pp-coin-1"><img src="img/pp-coin-pause.gif" width="32"></div>Coins</h1>
+                <p><b>Claim your free coins!</b><br/>We do coins lottery every few weeks (a PP coin will appear at the bottom of your screen)</p>
+                <button class="btn display-block text-left open-coin-island">Controlling Coin Island</button>
+                <button class="btn display-block text-left open-gold-rush">Crafting and selling gold bars on Gold rush Island</button>
+                <button class="btn display-block claim-coins margin-top-2" style="display: none" data-id="1">Discord BOOST <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>500 + Chat icon<span></span></button>
+                <button class="btn display-block text-left">Discord Server BOOST <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>125<span></span> per boost<br/>Please contact Owmince#4813</button>
+                <button class="btn display-block text-left">Discord Nitro gift to one of the staff members<br/><div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>1500 to <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>3000<span></span> per boost<br/>Please contact Owmince#4813</button>
+                <button class="btn display-block claim-coins margin-top-2" data-id="2">1 year member <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>50<span></span></button>
+                <button class="btn display-block claim-coins" data-id="3">2 years member <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>150<span></span></button>
+                <button class="btn display-block claim-coins" data-id="4">3 years member <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>300<span></span></button>
+                <button class="btn display-block claim-coins" data-id="11">4 years member <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>500<span></span></button>
+                <button class="btn display-block claim-coins" data-id="12">5 years member <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>750<span></span></button>
+                <button class="btn display-block claim-coins margin-top-2" data-id="10">Pixelplace Discord member<div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>15<span></span></button>
+                <button class="btn display-block claim-coins" data-id="5">Discord Account Link <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>30<span></span></button>
+                <button class="btn display-block claim-coins" data-id="7">Twitch Account Link <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>30<span></span></button>
+                <button class="btn display-block claim-coins" data-id="6">Reddit Account Link <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>30<span></span></button>
+                <button class="btn display-block claim-coins margin-top-2" data-id="8">VIP <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>21<span></span></button>
+                <button class="btn display-block secondary claim-coins" data-id="9">V2 Release day <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>160<span>Expired</span></button>
+            </div>
+        </div>
+        <div class="box-content" data-id="account">
+            <div>
+                <h1>Connections</h1>
+                <div class="linked-account" data-id="3">
+                    <div data-value="twitch"><img src="img/twitch-tile.svg" width="24"></div>
+                    <span></span><a href="https://pixelplace.io/api/sso.php?type=3&amp;action=remove" title="Disconnect Twitch account" class="link-remove">Disconnect?</a><a href="https://pixelplace.io/api/sso.php?type=3&amp;action=prompt" title="Connect your Twitch account" class="link-add">Connect your Twitch account</a></div>
+                <div class="linked-account" data-id="2">
+                    <div data-value="reddit"><img src="img/reddit-tile.svg" width="24"></div>
+                    <span></span><a href="https://pixelplace.io/api/sso.php?type=2&amp;action=remove" title="Disconnect Reddit account" class="link-remove">Disconnect?</a><a href="https://pixelplace.io/api/sso.php?type=2&amp;action=login" title="Connect your Reddit account" class="link-add">Connect your Reddit account</a></div>
+                <div class="linked-account" data-id="1">
+                    <div data-value="discord"><img src="img/discordapp-tile.svg" width="24"></div>
+                    <span></span><a href="https://pixelplace.io/api/sso.php?type=1&amp;action=remove" title="Disconnect Discord account?" class="link-remove">Disconnect?</a><a href="https://pixelplace.io/api/sso.php?type=1&amp;action=login" title="Connect your Discord account" class="link-add">Connect your Discord account</a></div>
+                <a href="#" class="input-checkbox other-tools" data-name="tools-display-social">
+                    <div>
+                        <div class="input">
+                            <div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="header">Display connections</div>
+                        <div class="content">Display your social medias accounts on your profile
+                        </div>
+                    </div>
+                </a>
+                <div class="account-password">
+                    <h1>Change password</h1>
+                    <form id="form-account-change-password">
+                        <label>Current password<span class="required">*</span></label>
+                        <input type="password" name="password-current" value="" placeholder="Current password">
+                        <div class="input-error" data-name="password-current"></div>
+                        <label>New password<span class="required">*</span></label>
+                        <input type="password" name="password" value="" placeholder="New password">
+                        <div class="input-error" data-name="password"></div>
+                        <label>Confirm new password<span class="required">*</span></label>
+                        <input type="password" name="password-confirm" value="" placeholder="Confirm New password">
+                        <div class="input-error" data-name="password-confirm"></div>
+                        <button id="submit-account-change-password" class="submit-form">CHANGE PASSWORD</button>
+                    </form>
+                </div>
+                <h1>Delete account</h1>
+                <p>Request all your personal data to be removed after 14 days. Your canvases won't be removed and your username will be locked until removal.<br/><br/>Make sure you disable your premium subscription if you have one (go to Shop &gt; Premium block &gt; Manage)<br/><br/>Login again on this account before its removal to cancel this request.</p>         <form id="form-delete-account"><button class="btn display-block submit-form alert">DELETE ACCOUNT</button></form>
+            </div>
+        </div>
+        <div class="box-content" data-id="terms">
+            <div>
+                Loading...
+            </div>
+        </div>
+        <div class="box-content blog-bg" data-id="blog">
+            <div id="blog">
+                Loading...
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="auth">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-header">
+            <img src="img/pixelplace-io-logo-tiny.png"><span>Log In</span>
+        </div>
+        <ul class="box-menu">
+            <li><a href="#" title="Log In" data-content="login">Log In</a></li>
+            <li><a href="#" title="Create Account" data-content="register">Create Account</a></li>
+            <li><a href="#" title="Forgot password" data-content="forgot">Forgot Password</a></li>
+        </ul>
+        <div class="box-content" data-id="login">
+            <div>
+                <!-- <span class="help-1">Warning: Connecting with VPNs and/or public connections isn't advised as all your accounts may be accidentally terminated if a linked account violates Pixelplace.io Terms of Service</span>-->
+                <h1>Sign in with</h1>
+                <div class="margin-bottom">
+                    <a href="https://pixelplace.io/api/sso.php?type=3&amp;action=login" class="sso" data-value="twitch" title="Sign In with Twitch"><img src="img/twitch-tile.svg" width="50"></a>
+                    <a href="https://pixelplace.io/api/sso.php?type=2&amp;action=login" class="sso" data-value="reddit" title="Sign In with Reddit"><img src="img/reddit-tile.svg" width="50"></a>
+                    <a href="https://pixelplace.io/api/sso.php?type=1&amp;action=login" class="sso" data-value="discord" title="Sign In with Discord"><img src="img/discordapp-tile.svg" width="50"></a>
+                </div>
+                <h1>Sign in with Email</h1>
+                <form id="form-account-login">
+                    <label>Email<span class="required">*</span></label>
+                    <input type="text" name="email" value="" placeholder="Enter your email">
+                    <div class="input-error" data-name="email"></div>
+                    <label>Password<span class="required">*</span></label>
+                    <input type="password" name="password" value="" placeholder="Enter your password">
+                    <div class="input-error" data-name="password"></div>
+                    <button id="submit-account-login" class="submit-form">LOG IN</button>
+                </form>
+                <span class="help">Need help? Contact us at <b>support@pixelplace.io</b></span>
+            </div>
+        </div>
+        <div class="box-content" data-id="register">
+            <div>
+                <!-- <span class="help-1">Warning: Connecting with VPNs and/or public connections isn't advised as all your accounts may be accidentally terminated if a linked account violates Pixelplace.io Terms of Service</span>-->
+                <h1>Sign up with</h1>
+                <div class="margin-bottom">
+                    <a href="https://pixelplace.io/api/sso.php?type=3&amp;action=login" class="sso" data-value="twitch" title="Sign Up with Twitch"><img src="img/twitch-tile.svg" width="50"></a>
+                    <a href="https://pixelplace.io/api/sso.php?type=2&amp;action=login" class="sso" data-value="reddit" title="Sign Up with Reddit"><img src="img/reddit-tile.svg" width="50"></a>
+                    <a href="https://pixelplace.io/api/sso.php?type=1&amp;action=login" class="sso" data-value="discord" title="Sign Up with Discord"><img src="img/discordapp-tile.svg" width="50"></a>
+                </div>
+                <h1>Sign up with Email</h1>
+                <form id="form-account-register">
+                    <label>Email<span class="required">*</span></label>
+                    <input type="text" name="email" value="" placeholder="Enter your email">
+                    <div class="input-error" data-name="email"></div>
+                    <label>Password<span class="required">*</span></label>
+                    <input type="password" name="password" value="" placeholder="Enter your password">
+                    <div class="input-error" data-name="password"></div>
+                    <label>Confirm password<span class="required">*</span></label>
+                    <input type="password" name="password-confirm" value="" placeholder="Confirm your password">
+                    <div class="input-error" data-name="password-confirm"></div>
+                    <div class="terms">By connecting on Pixelplace, you agree to the <a href="#" title="End user Agreement" class="grey open-modal" data-target="main" data-content="terms" data-extra="EUA">End user Agreement</a>, <a href="#" title="Terms of use" class="grey open-modal" data-target="main" data-content="terms" data-extra="TOU">Terms of use</a>, <a href="#" title="Terms of sale" class="grey open-modal" data-target="main" data-content="terms" data-extra="TOS">Terms of sale</a>, <a href="#" title="Terms of use" class="grey open-modal" data-target="main" data-content="terms" data-extra="CC">Code of Conduct</a> & <a href="#" title="Terms of use" class="grey open-modal" data-target="main" data-content="terms" data-extra="PP">Privacy Policy</a>. You also understand that this site is protected by Google reCAPTCHA and use Google Analytics and the <a href="https://policies.google.com/privacy">Google Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of
+                        Service</a> applies
+                        .</div>
+                    <button id="submit-account-register" class="submit-form">CREATE ACCOUNT</button>
+                </form>
+                <span class="help">Need help? Contact us at <b>support@pixelplace.io</b></span>
+            </div>
+        </div>
+        <div class="box-content" data-id="forgot">
+            <div>
+                <form id="form-account-forgot">
+                    <label class="margin-top">Email<span class="required">*</span></label>
+                    <input type="text" name="email" value="" placeholder="Enter your email">
+                    <div class="input-error" data-name="email"></div>
+                    <button id="submit-account-forgot" class="submit-form">REQUEST NEW PASSWORD</button>
+                </form>
+            </div>
+        </div>
+        <div class="box-content" data-id="forgot-activation">
+            <div>
+                <form id="form-account-forgot-activation">
+                    <label class="margin-top">New Password<span class="required">*</span></label>
+                    <input type="password" name="password" value="" placeholder="Enter your password">
+                    <div class="input-error" data-name="password"></div>
+                    <label>Confirm new password<span class="required">*</span></label>
+                    <input type="password" name="password-confirm" value="" placeholder="Confirm your password">
+                    <div class="input-error" data-name="password-confirm"></div>
+                    <button id="submit-account-forgot-activation" class="submit-form">MODIFY PASSWORD</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="username">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-header">
+            <img src="img/pixelplace-io-logo-tiny.png"><span>Please create a username</span>
+        </div>
+        <div class="box-content" data-id="username">
+            <div>
+                <form id="form-account-username">
+                    <label>Username<span class="required">*</span></label>
+                    <input type="text" name="username" value="" placeholder="(Only A-Z characters, min 3, max 12)">
+                    <div class="input-error" data-name="username"></div>
+                    <button id="submit-account-username" class="submit-form">SUBMIT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="queue">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content" data-id="queue">
+            <div class="margin-top-2 text-center server-queue">
+                <h1>Servers full</h1>
+                <div class="intro">Please wait.. Your position is saved.<br/>You can close this window, just stay on the page.</div>
+                <div class="info">Position in queue: <span class="position">Loading...</span></div>
+                <div class="info" style="display: none">Estimated time: <span class="time">Loading...</span></div>
+                <div class="foot"><a href="#" class="premium-only open-modal" data-target="main" data-content="shop">Premium</a> users can skip queue</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="request-access">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-header">
+            <img src="img/pixelplace-io-logo-tiny.png"><span>Painting Access</span>
+        </div>
+        <div class="box-content" data-id="request">
+            <div>
+                <b>To be able to place pixels on this painting, you have to request approval from its owner/moderators.</b>
+                <div class="rules">
+                    <h1>Painting rules</h1>
+                    <p></p>
+                </div>
+                <div class="managers">
+                    <h1>Painting managers</h1>
+                    <p>Owner: <b class="owner"></b></p>
+                    <p>Moderators: <span class="moderators"></span></p>
+                </div>
+                <div class="block-request-access-other">
+                    <h1>Your access</h1>
+                    <p><span class="message"></span><span class="username"></span></p>
+                    <p class="tmpban"><span class="message c-orange"></span></p>
+                    <p class="reason">Reason: <span></span></p>
+                </div>
+                <div class="block-request-access">
+                    <h1 class="h">Requesting access</h1>
+                    <form id="form-painting-request-access">
+                        <textarea type="text" name="message" value="" placeholder="Please enter a message for the owner/moderators to help them know who you are and why you are requesting access.." maxlength="250" rows="3"></textarea>
+                        <div class="input-error" data-name="message"></div>
+                        <button id="submit-painting-request-access" class="submit-form">REQUEST ACCESS</button>
+                    </form>
+                    <div class="twitch-form">
+                        <h1>Twitch Subscriber Access</h1>
+                        <p>Are you a <a href="#" class="twitch-link" target="_blank"></a> subscriber?</p>
+                        <p>You can claim your access instantly!</p>
+                        <form id="form-painting-request-access-twitch">
+                            <button id="submit-painting-request-access-twitch" class="submit-form twitch">CLAIM SUBSCRIBER ACCESS</button>
+                        </form>
+                    </div>
+                    <div class="guild-form">
+                        <h1>Guild Member Access</h1>
+                        <p>Are you a <a href="#" class="guild-link open-guild" data-tag=""></a> member?</p>
+                        <p>You can claim your access instantly!</p>
+                        <form id="form-painting-request-access-guild">
+                            <button id="submit-painting-request-access-guild" class="submit-form guild">CLAIM GUILD MEMBER ACCESS</button>
+                        </form>
+                    </div>
+                    <div class="twitch-form-info">
+                        <h1>Twitch Subscriber Access</h1>
+                        <p>If the painting owner is a Twitch partner/affiliate, he/her can enable instant access to its subscribers (in the painting settings), let him know!</p>
+                    </div>
+                    <div class="guild-form-info">
+                        <h1>Guild Member Access</h1>
+                        <p>Painting owner can enable a guild fast access, let him know!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="painting">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-header">
+            <img src="img/pixelplace-io-logo-tiny.png"><span>Painting Access</span>
+        </div>
+        <ul class="box-menu">
+            <li><a href="#" title="Accepted" data-content="accepted">Accepted</a></li>
+            <li><a href="#" title="Pending" data-content="pending">Pending</a></li>
+            <li><a href="#" title="Declined" data-content="declined">Declined</a></li>
+            <li><a href="#" title="Moderators" data-content="moderators">Moderators</a></li>
+        </ul>
+        <div class="box-content" data-id="pending">
+            <div>
+                <form id="form-painting-approve-all-requests">
+                    <button id="submit-painting-approve-all-requests" class="submit-form align-center">APPROVE ALL REQUESTS</button>
+                </form>
+                <div class="rows"></div>
+                <form id="form-painting-load-more-requests-pending">
+                    <button id="submit-painting-load-more-requests-pending" class="submit-form secondary align-center load-more">LOAD MORE REQUESTS</button>
+                </form>
+            </div>
+        </div>
+        <div class="box-content" data-id="accepted">
+            <button class="btn display-block access-approve-player">Add Player</button>
+            <input type="text" name="filter-request" data-type="1" class="margin-top input-60" placeholder="Type at least 3 characters to filter requests">
+            <div>
+                <div class="rows margin-top"></div>
+                <form id="form-painting-load-more-requests-accepted">
+                    <button id="submit-painting-load-more-requests-accepted" class="submit-form secondary align-center load-more">LOAD MORE REQUESTS</button>
+                </form>
+            </div>
+        </div>
+        <div class="box-content" data-id="declined">
+            <button class="btn display-block access-decline-player">Add Player</button>
+            <input type="text" name="filter-request" data-type="2" class="margin-top input-60" placeholder="Type at least 3 characters to filter requests">
+            <div>
+                <div class="rows margin-top"></div>
+                <form id="form-painting-load-more-requests-declined">
+                    <button id="submit-painting-load-more-requests-declined" class="submit-form secondary align-center load-more">LOAD MORE REQUESTS</button>
+                </form>
+            </div>
+        </div>
+        <div class="box-content" data-id="moderators">
+            <div>
+                <div class="rows margin-top"></div>
+                <form id="form-painting-moderator-add">
+                    <button id="submit-painting-moderator-add" class="submit-form">ADD MODERATOR</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="box" data-id="social">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-header">
+            <img src="img/pixelplace-io-logo-tiny.png"><span>Social</span>
+        </div>
+        <ul class="box-menu">
+            <li><a href="#" title="Friends" data-content="guild">Guild</a></li>
+            <li><a href="#" title="Friends" data-content="friends">Following</a></li>
+            <li><a href="#" title="Blocked" data-content="blocked">Blocked users</a></li>
+        </ul>
+        <div class="box-content" data-id="friends">
+            <div>
+                <div class="rows"></div>
+            </div>
+        </div>
+        <div class="box-content" data-id="bocked">
+            <div>
+                <div class="rows"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="onlineUsers" class="scroll">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div class="loading"><span class="c-loader"><span class="c-loader-inner"></span></span></div>
+            <div>
+                <h1></h1>
+                <p></p>
+                <h2>Online players on this painting</h2>
+                <div class="text-center players-list">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="profile" class="scroll">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div class="loading"><span class="c-loader"><span class="c-loader-inner"></span></span></div>
+            <div>
+                <div class="profile-name"><a href="#" class="open-guild guild-tag" data-tag=""><span></span></a> <span></span>
+                    <div class="profile-online pulse-online" title="Online"></div>
+                    <div class="profile-away" title="Away"></div>
+                    <div class="profile-offline" title="Offline"></div>
+                </div>
+                <div class="profile-name-ban"></div>
+                <div class="previousUsername">Recently renamed from <span></span></div>
+                <div class="text-center">
+                    <div class="chip i-admin"><img src="img/badges/admin.png" width="40" class="tip-icon" alt="Admin" title="Admin"></div>
+                    <div class="chip i-moderator"><img src="img/badges/moderator.png" width="40" class="tip-icon" alt="Moderator" title="Moderator"></div>
+                    <div class="chip i-chat-moderator"><img src="img/badges/chat-moderator.png" width="40" class="tip-icon" alt="Chat moderator" title="Chat moderator"></div>
+                    <div class="chip i-former-global-moderator"><img  width="40" class="tip-icon" alt="Former Global Moderator" title="Former Global Moderator"></div>
+                    <div class="chip i-premium-1-year"><img src="img/badges/1-year.png" width="40" class="tip-icon" alt="Premium subscriber (1 year plan)" title="Premium subscriber (1 year plan)"></div>
+                    <div class="chip i-premium-1-year-old"><img src="img/badges/1-year.png" width="40" class="tip-icon" alt="Premium subscriber (1 year plan)" title="Premium subscriber (1 year plan)"></div>
+                    <div class="chip i-premium-3-months"><img src="img/badges/3-months.png" width="40" class="tip-icon" alt="Premium subscriber (3 months plan)" title="Premium subscriber (3 months plan)"></div>
+                    <div class="chip i-premium-3-months-old"><img src="img/badges/3-months.png" width="40" class="tip-icon" alt="Premium subscriber (3 months plan)" title="Premium subscriber (3 months plan)"></div>
+                    <div class="chip i-premium-1-month"><img src="img/badges/1-month.png" width="40" class="tip-icon" alt="Premium subscriber (1 month plan)" title="Premium subscriber (1 month plan)"></div>
+                    <div class="chip i-premium-3-days"><img src="img/badges/3-days.png" width="40" class="tip-icon" alt="Premium subscriber (3 days plan)" title="Premium subscriber (3 days plan)"></div>
+                    <div class="chip i-premium-1-month-old"><img src="img/badges/1-month.png" width="40" class="tip-icon" alt="Premium subscriber (1 month plan)" title="Premium subscriber (1 month plan)"></div>
+                    <div class="chip i-nitro"><img src="img/badges/nitro.png" width="40" class="tip-icon" alt="Nitro (Discord booster)" title="Nitro (Discord booster)"></div>
+                    <div class="chip i-vip"><img src="img/badges/vip.png" width="40" class="tip-icon" alt="VIP (Given by admins &amp; moderators to a very few amazing people)" title="VIP (Given by admins &amp; moderators to a very few amazing people)"></div>
+                    <div class="chip i-bread"><img src="img/badges/bread.png" width="40" class="tip-icon" alt="Discord Bread" title="Discord Bread"></div>
+                    <div class="chip i-partner"><img src="img/badges/partner.png" width="40" class="tip-icon" alt="Discord Bread" title="Twitch partner"></div>
+                    <div class="chip i-gifter"><img src="img/badges/gifter.png" width="40" class="tip-icon" alt="Top 3 Gifter" title="Top 3 Gifter"></div>
+                    <div class="chip i-booster"><img src="img/badges/booster.png" width="40" class="tip-icon" alt="Top Discord Booster" title="Top Discord Booster"></div>
+                </div>
+                <div class="user-avatar"></div><a href="#" class="edit-user-avatar">Edit avatar</a>
+                <div class="text-center bio"><span></span><a href="#" class="display-block" data-id="bio-edit">Edit bio</a></div>
+                <div class="bold text-center">
+                    <h4 class="createdAt"></h4>
+                    <h4 class="lastOnline"></h4>
+                    <h4 class="pixels"></h4>
+                    <h4 class="battlePoints"></h4>
+                    <h4 class="painting"><span class="pixelating">Pixelating in</span>
+                        <div class="color-preview"></div>
+                        on <a href="#"></a> <span></span>
+                    </h4>
+                    <a href="#" class="followers" data-username=""></a>
+                    <div class="followers-list"></div>
+                    <div class="gold-ore-img2 no-r"><img src="img/gold-ore.png"></div><div class="gold-ore-img2-count">-</div>
+                    <div class="gold-bar-img2 no-r"><img src="img/gold-bar.png"></div><div class="gold-bar-img2-count">-</div>
+                </div>
+                <div class="text-center">
+                    <div class="chip i-discord"><img src="img/discordapp-tile.svg" width="32" class="tip-icon">
+                        <div></div>
+                    </div>
+                    <div class="chip i-reddit"><img src="img/reddit-tile.svg" width="32" class="tip-icon">
+                        <div></div>
+                    </div>
+                    <div class="chip i-twitch"><img src="img/twitch-tile.svg" width="32" class="tip-icon">
+                        <div></div>
+                    </div>
+                </div>
+                <form id="form-friends" class="text-center">
+                    <button class="inline btn-add-friend-data">Follow</button>
+                    <button class="inline alert btn-remove-friend btn-del-friend">Unfollow</button>
+                    <button class="inline btn-block-user btn-add-block-data">Block</button>
+                    <button class="inline alert btn-unblock-user btn-del-blocked">Unblock</button>
+                    <button class="inline btn-report-user">Report</button>
+                </form>
+                <div class="text-center profile-guild-rank margin-top">
+                    <label class="bold">Guild rank:</label>
+                    <select name="guild-rank">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="guild" class="scroll">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div class="loading"><span class="c-loader"><span class="c-loader-inner"></span></span></div>
+            <div>
+                <div class="guild-name"><span class="tag"></span><div class="emblem"></div><a href="#" class="edit-guild-emblem">Edit guild emblem?</a><span class="name"></span></div>
+                <div class="text-center description margin-top">&ldquo;<span></span>&rdquo;</div>
+                <div class="bold text-center">
+                    <h4 class="createdAt">Created by <a href="#" class="open-profile" data-profile=""></a><br/> <span></span> </h4>
+                    <h4 class="position"></h4>
+                    <h4 class="points"></h4>
+                    <h4 class="members"></h4>
+                </div>
+                <form id="form-guild" class="text-center">
+                    <button class="inline btn-guild-apply guild-new-apply" data-tag="">APPLY TO JOIN</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="checkout-method" class="scroll">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div>
+                <div>
+                    <h1>Choose a payment method</h1>
+                    <div class="side-by-side">
+                        <a href="#" id="checkout-stripe"><img src="img/method-stripe.png"></a><!-- --><a href="#" id="checkout-paypal"><img src="img/method-paypal.png"></a>
+                    </div>
+                    <div class="crypto">We also accept <b>Cryptocurrencies</b>, contact us at<br/>support@pixelplace.io or on Discord: Owmince#4813</div>
+                </div>
+                <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post" class="paypal-from" style="display: none">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="BVM3SYUCYYNPY">
+                    <input type="hidden" name="custom" value="">
+                    <input type="hidden" name="return" value="https://pixelplace.io/paypal.php?premium=1">
+                    <button type="submit" class="align-center">Paypal checkout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="item" class="scroll">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div class="loading"><span class="c-loader"><span class="c-loader-inner"></span></span></div>
+            <div>
+                <div class="block">
+                    <div class="img"></div><div class="text">
+                    <h1></h1>
+                    <div class="size"></div>
+                    <div class="stock"></div>
+                    <div class="description"></div>
+                    <div class="quantity"><button class="item-lower-quantity"><img src="img/icons/i-minus.svg"></button><input type="text" name="quantity" value="1"><button class="item-add-quantity"><img src="img/icons/i-plus.svg"></button></div>
+                    <a href="https://www.youtube.com/watch?v=Pmr5PlJcBkk" target="_blank" class="demo">Click for a demo</a>
+                </div>
+                </div>
+                <div class="text-center">
+                    <button class="get-more-coins secondary"><div class="getmore">GET MORE</div> <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="26"></div> COINS</button><button type="submit" class="checkout-item" data-item=""></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="coin-island">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div class="loading"><span class="c-loader"><span class="c-loader-inner"></span></span></div>
+            <div>
+                <div class="head">
+                    <img src="img/coin-island-t.gif" class="pixelate">
+                    <div class="coins-to-claim">
+                        <form id="form-claim-coinisland-coins">
+                            <div class="current-coins"><div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="20"></div><span></span> <div class="coins-rate">+<span></span> /h</div></div>
+                            <div class="bonus">CLAIM BONUS: <div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div><span></span><div class="next-bonus">Upgrade to <span class="coins"></span> in <span class="next-bonus-time"></span></div></div>
+                            <button id="submit-claim-coinisland-coins" class="submit-form">CLAIM COINS</button>
+                        </form>
+                    </div>
+                    <div class="owner"><a href="#" class="open-profile" data-profile="" title="Current owner"></a><div class="label">OWNER</div></div>
+                </div>
+                <div class="blk">
+                    <h1 class="coinisland-title">Loading...</h1>
+                    <div class="ctn">
+                        This is a private island. Only one player can own it and place pixels.
+                        <br/> <br/>
+                        <b>This island also produce<div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></div>coins every hour!</b><br/>
+                        Only the current owner can claim theses coins.<br/><b>The more you wait, the more bonus coins there will be to claim!</b><br/>But be aware, anyone can take the island from you and claim your hard mined coins!
+                    </div>
+                    <h1>Take control & steal the coins!</h1>
+                    <div class="ctn">
+                        You can buy special forces to attack the island and take its control! You will have a <b>10 minutes protection</b> after getting the ownership of the island before anyone else can attack it again. You will also steal all the unclaimed coins (minus 35% pirates fee).
+                        <form id="form-attack-coinisland">
+                            <button id="submit-attack-coinisland" class="submit-form">SEND TROOPS & GET OWNERSHIP<div class="coin-line"><div class="pp-coin-1"><img src="img/pp-coin-still.gif" width="26"></div> <span class="price">Loading..</span><span class="discount"></span></div></button>
+                        </form>
+                        Price <b>increase</b> by <b>10%</b> everytime this island is attacked.<br/>
+                        Price <b>decrease</b> by <b>30%</b> every 24h without any attacks.
+                    </div>
+                    <h1>Recent owners</h1>
+                    <div class="past-owners">
+                        <table cellspacing="0" cellpadding="0">
+                        </table>
+                    </div>
+                    <h1 class="margin-top">FAQ</h1>
+                    <div class="ctn">
+                        <h2>What can i do as the Island owner?</h2>
+                        <p>You can place pixels on the island, no one else can. It's yours and only yours. You also can claim coins mined by the the island pirates.</p>
+                        <h2>How do i mine coins?</h2>
+                        <p>Sit back & relax! Island pirates are working hard to create coins for you. You don't even need to be online!</p>
+                        <h2>How to claim coins?</h2>
+                        <p>To claim coins, you need to be the current island owner. You can become the owner by hitting the button <b>Send troops & get ownership</b> above. Coins left on the island will be automatically transfered to your account once you take ownership.</p>
+                        <h2>How does the claim bonus work?</h2>
+                        <p>The longer you DON'T claim the coins, the greater will be the claim bonus.<br/>
+                            - 4 hours : <span class="goal-4"></span> bonus coins<br/>
+                            - 8 hours : <span class="goal-8"></span> bonus coins<br/>
+                            - 12 hours : <span class="goal-12"></span> bonus coins<br/>
+                            - 24 hours : <span class="goal-24"></span> bonus coins<br/>
+                        </p>
+                        <h2>What if someone take the ownership from me?</h2>
+                        <p>You will lose access to the island and any coins unclaimed will be sent to the new owner (minus a 35% pirate fee).</p>
+                        <h2>Why a 35% pirate fee on the unclaimed coins?</h2>
+                        <p>Well... A pirate's gotta eat. <br/>Yarrrrrrrrrrr</p>
+                        <h2>I took ownership but didn't get the unclaimed coins???</h2>
+                        <p>The previous owner may have claimed the coins just before you attacked. Check the past owners table above.</p>
+                    </div>
+                    <h1></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="gold-rush">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div class="loading"><span class="c-loader"><span class="c-loader-inner"></span></span></div>
+            <div>
+                <div class="head">
+                    <div class="gold-ore-img"><img src="img/gold-ore.png"><div class="count gold-ore-count">-</div></div>
+                    <div class="gold-bar-img"><img src="img/gold-bar.png"><div class="count gold-bar-count">-</div></div>
+                    <div class="gold-tools-img"><img src="img/gold-tools-1.png" class="img-gold-tools-current"><div class="count gold-items-level">-</div></div>
+                    <div class="gold-dynamite-img"><img src="img/gold-bomb-1.png" class="img-gold-dynamite-current"><div class="count gold-dynamite-level">-</div></div>
+                    <img src="img/gold-rush-island.png" class="pixelate">
+                </div>
+                <div class="blk">
+                    <h1 class="goldrush-island-title">Welcome to Gold Rush Island!</h1>
+                    <div class="ctn">
+                        Here you can mine your daily <span class="g-ore">Gold ore</span>, craft and trade some shiny <span class="g-bar">Gold bar</span> or even build your empire to be the richest player on PixelPlace.
+                        <br/><br/>
+                        Stay in the top 5 players with the most gold bars to get <span class="golden t-shadow">a golden profile and shiny text effect in chat</span>.
+                        <br/><br/>
+                    </div>
+                    <hr class="gold-hr"/>
+                    <h1>Mining</h1>
+                    <div class="ctn">
+                        <p>Come back every day to mine some gold ores. You can improve your chances to get more ores by upgrading your tools.</p>
+                        <div class="display-block mv-10"><div class="gold-prog gold-mining"><div><a href="#" class="gold-ore-icon" title="Gold Ore"><img src="img/gold-ore.png"></a></div><div><div class="bar-progress"><div class="bar"></div><div class="bar-text">Gold Mine</div></div><a href="#" class="btn mine-gold">Click to mine Gold Ores</a><div class="notification"></div><div class="notificationDynamite"></div></div></div></div>
+                        <!--<p>🎄🎁 <b>+5 Gold</b> ore bonus on each mining action until the end of the month (+3 snowballs if you have XMAS username)</p>-->
+                        <p> </p>
+                        <p>You have <span class="gold-ore-count">0</span> Gold ores.<br/><br/></p>
+                    </div>
+                    <hr class="gold-hr"/>
+                    <h1>Smelting</h1>
+                    <div class="ctn">
+                        <p>Smelt <b class="gold-bar-price">-</b> x <span class="g-ore">Gold ore</span> into <b>1</b> x <span class="g-bar">Gold bar</span></p>
+                        <div class="display-block mv-10"><div class="gold-prog gold-smelting"><div><a href="#" class="gold-bar-icon" title="Gold Bar"><img src="img/gold-bar.png"></a></div><div><div class="bar-progress"><div class="bar"></div><div class="bar-text">Melting Furnace</div></div><a href="#" class="btn smelt-gold">Create Gold Bar</a><div class="notification"></div></div></div></div>
+                        <p>You have <span class="gold-bar-count">0</span> Gold bars.<br/><br/></p>
+                    </div>
+                    <hr class="gold-hr"/>
+                    <h1>Mining Tools</h1>
+                    <div class="ctn">
+                        <p>Upgrade your mining tools to give you better odds at finding bigger amount of gold ores. See <a href="#" class="level-perks">level perks</a> for more information.</p>
+                        <div class="display-block mv-10"><div class="gold-prog gold-upgrade"><div><a href="#" class="gold-items" title="Mining Tools"><img src="img/gold-tools-1.png" class="img-gold-tools-current"></a></div><div><div class="bar-progress"><div class="bar"></div><div class="bar-text">Upgrade to lvl. 2</div></div><a href="#" class="btn upgrade-gold">1 x Gold Bar</a><div class="notification"></div></div></div></div>
+                        <p>Current Level: <span class="gold-items-level">-</span>.<br/><br/></p>
+                        <div class="gold-odds">
+                            <div class="tb-title"> Number of Ores&nbsp;&nbsp;/&nbsp;&nbsp;% Chances</div>
+                            <div class="gold-loot gold-loot-items mb-30">
+                                <table cellspacing="0" cellpadding="0">
+                                    <tr><td></td><td>2-5</td><td>7-10</td><td>12-16</td></tr>
+                                    <tr class="stripped"><td>Level 1</td><td>90%</td><td>9%</td><td>1%</td></tr>
+                                    <tr><td>Level 2</td><td>75%</td><td>20%</td><td>5%</td></tr>
+                                    <tr class="stripped"><td>Level 3</td><td>50%</td><td>40%</td><td>10%</td></tr>
+                                    <tr><td>Level 4</td><td>35%</td><td>50%</td><td>15%</td></tr>
+                                    <tr class="stripped"><td>Level 5</td><td>25%</td><td>55%</td><td>20%</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="gold-hr"/>
+                    <h1>Dynamite Power</h1>
+                    <div class="ctn">
+                        <p>Upgrade your dynamite power to give you a better chance at getting an extra mining action every day (can trigger multiple times in a row). See <a href="#" class="level-perks-dynamite">level perks</a> for more information.</p>
+                        <div class="display-block mv-10"><div class="gold-prog gold-upgrade-dynamite"><div><a href="#" class="gold-dynamite" title="Dynamite power"><img src="img/gold-bomb-1.png" class="img-gold-dynamite-current"></a></div><div><div class="bar-progress"><div class="bar"></div><div class="bar-text">Upgrade to lvl. 2</div></div><a href="#" class="btn upgrade-gold-dynamite">500 <span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span></a><div class="notification"></div></div></div></div>
+                        <p>Current Level: <span class="gold-dynamite-level">-</span>.<br/><br/></p>
+                        <div class="gold-odds-dynamite">
+                            <div class="tb-title"> Extra mining chances</div>
+                            <div class="gold-loot gold-loot-dynamite mb-30">
+                                <table cellspacing="0" cellpadding="0">
+                                    <tr><td></td><td>On each mining action</td><td>Price</td></tr>
+                                    <tr class="stripped"><td>Level 1</td><td>5%</td><td>-</td></tr>
+                                    <tr><td>Level 2</td><td>15%</td><td class="text-right">400 <span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span></td></tr>
+                                    <tr class="stripped"><td>Level 3</td><td>30%</td><td class="text-right">800 <span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span></td></tr>
+                                    <tr><td>Level 4</td><td>45%</td><td class="text-right">1600 <span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span></td></tr>
+                                    <tr><td>Level 5</td><td>65%</td><td class="text-right">3200 <span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="gold-hr"/>
+                    <h1>Auction House</h1>
+                    <div class="ctn">
+                        <p>Buy or Sell your Gold Bars for <span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span> coins.</p>
+                        <div class="mt-25 mb-5"><a href="#" class="ah-all active">All Listings</a> <a href="#" class="ah-my">My Listings</a> <div class="my-pp"><b></b><span class="g-p1"><img src="img/pp-coin-still.gif" width="20"></span></div></div>
+                        <div class="generic-table ah_table">
+                            <table cellspacing="0" cellpadding="0">
+                                <thead>
+                                <tr><td class="icn"></td><td class="text-right up">Unit price</td><td>Available at this price</td><td>Actions</td></tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn ah-display-sell">CREATE AUCTION</button>
+                        <div class="ctn ah-sell-form mt-10">
+                            <p class="bold">Create sell orders on the Auction House to get<span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span>coins.</p>
+                            <form name="ah_sell" class="mt-10">
+                                <label>Amount of Gold bars to sell </label> <input type="number" name="ah_sell_amount" value="1" class="input-text"><span class="g-tiny g-p"><img src="img/gold-bar.png" width="20"></span><br/><br/>
+                                <label>Unit price </label> <input type="number" name="ah_sell_price" value="1" class="input-text"><span class="g-p1"><img src="img/pp-coin-still.gif" width="20"></span><br/><br/>
+                                Listing fee: <b class="ah_fee">-</b><span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span><br/>
+                                Auction House cut: <b class="ah_cut">-</b><br/>
+                                Duration: <b>7 days</b><br/>
+                                <button type="submit" class="btn mb-0">CREATE AUCTION</button>
+                            </form>
+                        </div>
+                        <h1 class="text-right">Price tracker (last 20 sales)</h1>
+                        <div class="ctn ah-chart">
+                        </div>
+                    </div>
+                    <hr class="gold-hr"/>
+                    <h1>Top 15 Gold Bars owners</h1>
+                    <p class="top5-notice">Updated every 5 minutes (top 5 people will get a special chat and profile effect)</p>
+                    <div class="top-gold">
+                        <table cellspacing="0" cellpadding="0">
+                        </table>
+                    </div>
+                    <h1 class="margin-top">FAQ</h1>
+                    <div class="ctn">
+                        <h2>How to get Gold bars?</h2>
+                        <p>- Craft it here if you have enough gold ores
+                            <br>- Buy it here on the Auction House
+                        </p>
+                        <h2>How to get Gold ores?</h2>
+                        <p>- You can mine some on this island everyday
+                            <br>- Upgrade your mining tools to get better daily gold ores
+                            <br>- Winning Player wars gives you a chance to get 1 to 5 Gold ores
+                            <br>- Rare Daily Loot drop
+                        </p>
+                        <h2>Why should I get Gold bars?</h2>
+                        <p>- The top 5 people with the most gold bars get a shiny profile and chat effect (but can lose it if they are not in the top anymore).<br/>
+                            - Gold bars can be sold for <span class="pp-coin-1"><img src="img/pp-coin-still.gif" width="16"></span> coins on the auction house.<br/>
+                            - Gold bars/ores you own will be displayed on your profile
+                        </p>
+                    </div>
+                    <h1></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="daily-reward" class="scroll">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div id="slot">
+                <div class="reel-container">
+                    <div class="reel">
+                        <img src="img/lootbox-new-v3-v-1.png"><img src="img/lootbox-new-v3-v-1.png"><img src="img/lootbox-new-v3-v-1.png"><img src="img/lootbox-new-v3-v-1.png"><img src="img/lootbox-new-v3-v-1.png"><img src="img/lootbox-new-v3-v-1.png"><img src="img/lootbox-new-v3-v-1.png">
+                    </div>
+                    <div class="overlay-bg"></div>
+                    <div class="line"></div>
+                    <div class="left-black"></div>
+                    <div class="right-black"></div>
+                </div>
+                <a class="overlay" href="#">OPEN</a>
+                <div class="logo"><img src="img/dailyloot.png"></div>
+                <a href="#" class="odds">Odds</a>
+            </div>
+            <!--<div class="wheel-container">
+                <div class="logo"><img src="https://pixelplace.io/img/logo-daily-reward.png?v=2" width="250"></div>
+                <div class="wheel">
+                    <div class="inner-wheel">
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>3</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>100</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>5</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>25</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>4</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/item-1.png" width="26" class="radius"><span>1</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>10</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>75</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>2</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>50</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/pp-coin-still.gif" width="26"><span>1</span></div>
+                        <div class="sec"><img src="https://pixelplace.io/img/item-2.png" width="26" class="radius"><span>1</span></div>
+                    </div>
+                    <a href="#" class="spin">
+                        <div class="inner-spin"></div>
+                    </a>
+                </div>
+                <a href="#" title="Odds" class="grey open-modal spinodds" data-target="main" data-content="terms" data-extra="dr">Spinning Wheel Odds</a>
+            </div>-->
+        </div>
+    </div>
+</div>
+<div id="pixel-lottery" class="scroll px-lottery">
+    <div class="box-x">
+        <a href="#" class="close close-modal"><img src="img/icons/x-modal.svg" alt="icon"></a>
+        <div class="box-content-x">
+            <div class="head">
+                <img src="img/lottery.png">
+            </div>
+            <div class="text no-jackpot">
+                Next lottery coming soon (every 2 or 3 weeks)
+            </div>
+            <div class="active-jackpot">
+                <div class="current-pot">
+                    <div class="pp-coin"><img src="img/pp-coin-pause.gif"></div> <span class="jackpot-amount rainbowText">-</span>
+                    <div class="jackpot"><div>Current Jackpot</div></div>
+                </div>
+                <div class="text">
+                    A random ticket will be picked in
+                    <div class="jackpot-time">-</div>
+                </div>
+                <div class="jackpot-actions">
+                    <button class="btn-jackpot-buy" data-id="1">Get 1 Ticket <div class="price"><div class="pp-coin-1"><img src="img/pp-coin-still.gif"></div> 10</div></button>
+                    <button class="btn-jackpot-buy" data-id="5">Get 5 Tickets <div class="price"><div class="pp-coin-1"><img src="img/pp-coin-still.gif"></div> 50</div></button>
+                    <button class="btn-jackpot-buy" data-id="10">Get 10 Tickets <div class="price"><div class="pp-coin-1"><img src="img/pp-coin-still.gif"></div> 100</div></button>
+                </div>
+                <div class="text">
+                    <b class="jackpot-users">-</b> players<br/><br/>
+                    You have <b class="user-tickets">-</b> tickets
+                </div>
+            </div>
+            <h1>Recent Winners</h1>
+            <div class="past-winners">
+                <table cellspacing="0" cellpadding="0">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="halloween-filter">
+    <defs>
+        <filter id="halloween-0">
+            <feturbulence id="turbulence" basefrequency="0.02" numoctaves="3" result="noise" seed="0"/>
+            <fedisplacementmap id="displacement" in="SourceGraphic" in2="noise" scale="6"/>
+        </filter>
+        <filter id="halloween-1">
+            <feturbulence id="turbulence" basefrequency="0.02" numoctaves="3" result="noise" seed="1"/>
+            <fedisplacementmap in="SourceGraphic" in2="noise" scale="8"/>
+        </filter>
+        <filter id="halloween-2">
+            <feturbulence id="turbulence" basefrequency="0.02" numoctaves="3" result="noise" seed="2"/>
+            <fedisplacementmap in="SourceGraphic" in2="noise" scale="6"/>
+        </filter>
+        <filter id="halloween-3">
+            <feturbulence id="turbulence" basefrequency="0.02" numoctaves="3" result="noise" seed="3"/>
+            <fedisplacementmap in="SourceGraphic" in2="noise" scale="8"/>
+        </filter>
+        <filter id="halloween-4">
+            <feturbulence id="turbulence" basefrequency="0.02" numoctaves="3" result="noise" seed="4"/>
+            <fedisplacementmap in="SourceGraphic" in2="noise" scale="6"/>
+        </filter>
+    </defs>
+</svg>
+<script src="js/cookies.min-v2-1.js"></script>
+<script src="js/jquery.min-v2-1.js"></script>
+<script src="js/jquery-ui.min-v2-1.js"></script>
+<script src="js/interact.min-v2-1.js"></script>
+<script src="js/socket.min-v2-1.js"></script>
+<script src="v3/script_file.js"></script>
+<script>
+    console.log("%cSTOP!", "color: red; font-size: 7em");
+    console.log("%cDon\'t paste anything in here", "font-size:2.5em;color: red;");
+    console.log("%cSomeone could steal your data or do things on your behalf", "font-size:1.5em;color: red;");
+    console.log("%cWe won\'t provide any support if you get banned/hacked because of it", "font-size:1.5em;color: red;");
+</script>
+<script src="js/rgb.min-v1-1.js"></script>
+<script src="js/script-v3-8163.js"></script>
+<script>
+    /*
+    */
+    var VALIDATE_CAPTCHA = null;
+    var onloadCallback = function () {
+        setTimeout(function () {
+            //Timeout because it mess with alert boxes on load..
+            grecaptcha.render('recaptcha', {
+                'sitekey': '6LcZpc8UAAAAAHHJCAYkiNoWaVCgafT_Juzbcsnr'
+            });
+        }, 1000);
+    };
+</script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&amp;render=explicit" async defer></script>
+<center><font size="2">This is a free demo result from the Wayback Machine Downloader. <a href="http://www.waybackmachinedownloads.com">Click here</a> to download the full version.</font></center></body>
+</html>

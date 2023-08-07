@@ -1,0 +1,1000 @@
+@font-face {
+    font-family: 'pixeltyperegular';
+    src: url('/web/20190209032027im_/https://pixelplace.io/css/pixeltype-webfont.woff2') format('woff2'),
+    url('/web/20190209032027im_/https://pixelplace.io/css/pixeltype-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    overflow: hidden;
+    font-family: 'pixeltyperegular';
+    color: #333333;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+
+}
+
+a {
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+a, a:active, a:visited, a:focus {
+    color: #fff;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    color: #00dbff;
+}
+
+button {
+    outline: none !important;
+}
+
+.wrapper {
+    display: block;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+/* SIDEBAR */
+
+.sidebar-container {
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 250px;
+    height: 100vh;
+    background-color: #3d3d3d;
+    color: white;
+    z-index: 1000;
+}
+
+.sidebar-container .links-container {
+    position: relative;
+    height: 100%;
+    display: block;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden!important;
+}
+
+.sidebar-container .separation {
+    display: block;
+    text-align: center;
+    width: 250px;
+    margin: 7px 0px 7px 0px;
+    height: 0px;
+    border-top: 1px solid #5a5a5a;
+}
+
+.sidebar-container .separation-hidden {
+    display: block;
+    text-align: center;
+    width: 250px;
+    height: 14px;
+}
+
+.sidebar-container .centered-label {
+    text-align: center;
+    width: 250px;
+    color: white;
+    font-size: 32px;
+    display: block;
+    margin-top: 14px;
+}
+
+.sidebar-container .centered-label:hover {
+    color: #00dbff;
+}
+
+.sidebar-container .checkbox-input {
+    text-align: center;
+    width: 250px;
+    color: white;
+    font-size: 14px;
+    display: block;
+    font-family: "Trebuchet MS";
+}
+
+.sidebar-container .checkbox-input input[type=checkbox] {
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+    margin-top: 7px;
+}
+
+.tooltip {
+    background-color: #6f6f6f;
+    padding-top: 4px;
+    padding-left: 1px;
+    text-align: center;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    font-family: "Trebuchet MS";
+    display: inline-block;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    position: relative;
+    top: -5px;
+    cursor: pointer;
+    color: white;
+}
+
+.tooltip:hover {
+    background-color: #9e9e9e;
+}
+
+.sidebar-container .setting-link {
+    text-align: center;
+    width: 250px;
+    color: white;
+    font-size: 14px;
+    display: block;
+    font-family: "Trebuchet MS";
+    margin-top: 7px;
+    background-color: #3d3d3d;
+    color: #00dbff;
+}
+.sidebar-container .setting-link:hover {
+    color: #5dfffc;
+}
+
+.sidebar-container .setting-link-owner {
+    text-align: center;
+    width: 250px;
+    color: white;
+    font-size: 14px;
+    display: block;
+    font-family: "Trebuchet MS";
+    margin-top: 7px;
+    background-color: #3d3d3d;
+    color: #00ff4f;
+}
+
+.sidebar-container .setting-link-other {
+    text-align: center;
+    width: 250px;
+    color: white;
+    font-size: 14px;
+    display: block;
+    font-family: "Trebuchet MS";
+    margin-top: 7px;
+    background-color: #3d3d3d;
+    color: #fff900;
+}
+
+.auth-block .button {
+    background-color: #2d2d2d;
+    margin: 8px auto 8px auto;
+    display: block;
+    width: 180px;
+    padding: 9px 0px 4px 0px;
+    text-align: center;
+}
+
+.auth-block .button:hover {
+    background-color: #232323;
+}
+
+.button-lock-canvas-position {
+    cursor: pointer;
+}
+
+#modal-sign-in-up .register-tou {
+    margin-bottom: 20px;
+}
+
+/* TOASTR */
+
+.toast-title {
+    font-family: "Trebuchet MS";
+}
+
+.toast-message {
+    font-family: "Trebuchet MS";
+}
+
+/* CANVAS */
+
+canvas {
+    display: block;
+    image-rendering: optimizeSpeed;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    outline: 1px solid transparent;
+
+}
+
+.canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: move;
+    background-color: #ccc;
+}
+
+.canvas-zoom {
+    flex: 0 0 100px;
+}
+
+
+.palette {
+    position: relative;
+    width: 250px;
+    text-align: center;
+    padding: 0px 10px 0px 10px;
+}
+
+.palette-color {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 2px solid transparent;
+    margin: 0px 5px 5px 5px;
+    cursor: pointer;
+}
+
+.palette-color:hover {
+    border: 2px dashed #3d3d3d;
+}
+
+.color-selected {
+    border: 2px dashed #3d3d3d;
+}
+
+.cursor {
+    position: absolute;
+    display: none;
+    top: -10000px;
+    left: -10000px;
+    width: 26px;
+    height: 26px;
+    border: 1px solid black;
+    pointer-events: none;
+    will-change: transform;
+    background-color: #ffffff;
+    z-index: 1000;
+}
+
+.placeholder {
+    position: absolute;
+    display: none;
+    top: 0px;
+    left: 0px;
+    border: 1px solid black;
+    pointer-events: none;
+    /*will-change: transform; This cause blurred text*/
+}
+
+.coords {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 5px 6px 4px 6px;
+    text-align: center;
+    background-color: rgba(45, 45, 45, 0.80);
+    color: #fff;
+    width: auto;
+    font-size: 12px;
+    font-family: "Trebuchet MS";
+    text-align: center;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 5px;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+/* MODALS */
+
+.modal-loader img {
+    position: relative;
+    top: 40%;
+
+}
+
+.modal-loader {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+
+.iziModal {
+    z-index: 100000 !important;
+    font-family: "Trebuchet MS";
+    background-color: #313131 !important;
+}
+
+.iziModal a {
+    color: #00dbff;
+}
+
+.iziModal a:hover {
+    color: #00fffa;
+}
+
+.iziModal-overlay {
+    z-index: 10000 !important;
+}
+
+.iziModal .iziModal-header-title {
+
+}
+
+.iziModal .icon-close {
+    background: #575757;
+    margin-bottom: 10px;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    color: #8a8a8a;
+    cursor: pointer;
+}
+
+.iziModal .icon-close:hover, .iziModal .icon-close:focus {
+    color: black;
+}
+
+.iziModal.hasScroll .icon-close {
+    display: none;
+}
+
+/* MODAL ABOUT */
+
+#modal-about {
+    background: #262626;
+}
+
+#modal-about h2 {
+    color: #fff;
+    text-align: center;
+}
+
+#modal-about p {
+    color: #fff;
+    text-align: left;
+    padding: 10px 25px;
+}
+
+/* MODAL CREATE CANVAS */
+
+#modal-create-canvas {
+    background: #262626;
+}
+
+#modal-create-canvas h2 {
+    color: #fff;
+    text-align: center;
+}
+
+#modal-create-canvas table {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    background: #262626;
+    font-size: 16px;
+}
+
+#modal-create-canvas table td {
+    padding: 10px;
+    width: 50%;
+}
+
+#modal-create-canvas table td:nth-child(1) {
+    border-right: 1px dashed #9c9c9c;
+}
+
+#modal-create-canvas .separation {
+    display: block;
+    width: 100%;
+    height: 18px;
+}
+
+#modal-create-canvas input {
+    border: 1px solid #ffffff;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+#modal-create-canvas .canvas-width, #modal-create-canvas .canvas-height {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+}
+
+#modal-create-canvas .canvas-cooldown {
+    display: inline-block;
+    width: 70px;
+    text-align: center;
+}
+
+#modal-create-canvas .radio-block {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 0px;
+    padding: 8px 16px 8px 16px;
+
+}
+
+#modal-create-canvas .canvas-privacy {
+    display: block;
+}
+
+#modal-create-canvas .radio-block .label-1 {
+    color: #00d300;
+}
+
+#modal-create-canvas .radio-block .label-2 {
+    color: #ff8000;
+}
+
+#modal-create-canvas .radio-block .label-3 {
+    color: #ff4238;
+}
+
+#modal-create-canvas .radio-block input {
+    margin: 0px 0px 5px 0px;
+    padding: 0px;
+}
+
+#modal-create-canvas .radio-block span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#modal-create-canvas .radio-block {
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#modal-create-canvas .centered-label {
+    color: #00dbff;
+}
+
+#modal-create-canvas section button {
+    background: #656565;
+    color: white;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    width: 70%;
+    float: left;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+#modal-create-canvas section button:hover {
+    opacity: 0.8;
+    color: #fff;
+}
+
+#modal-create-canvas .input-error {
+    color: #ff4238;
+    font-size: 12px;
+    display: none;
+    width: 100%;
+    padding: 0px 40px 4px 40px;
+    text-align: center;
+}
+
+.premium-icon {
+    position: relative;
+    top: 4px;
+    margin: 0;
+    padding: 0;
+    margin-left: 5px;
+}
+
+.normal-user img, .premium-user img {
+    width: 100%;
+}
+.normal-user  input {
+    width: 100%;
+    border: none !important;
+}
+
+.normal-user, .premium-user {
+    display: none;
+}
+
+/* MODAL SIGN IN UP*/
+
+#modal-sign-in-up header {
+    background: #262626;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-radius: 3px 3px 0 0;
+    width: 100%;
+}
+
+#modal-sign-in-up header a {
+    display: block;
+    float: left;
+    width: 50%;
+    padding: 0;
+    text-align: center;
+    background: #373737;
+    color: #ffffff;
+    height: 65px;
+    vertical-align: middle;
+    line-height: 65px;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+#modal-sign-in-up header a:not(.active):hover {
+    box-shadow: inset 0 -10px 20px -10px #0b0b0b
+}
+
+#modal-sign-in-up header a.active {
+    background: #262626;
+    color: #ffffff;
+}
+
+#modal-sign-in-up .iziModal-content {
+    background: #262626;
+    color: #ffffff;
+}
+
+#modal-sign-in-up .sections {
+    overflow: hidden;
+}
+
+#modal-sign-in-up section {
+    padding: 30px;
+}
+
+#modal-sign-in-up section input:not([type="checkbox"]), #modal-sign-in-up section button {
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #ffffff;
+    margin-bottom: 26px;
+    padding: 15px;
+    font-size: 14px;
+}
+
+#modal-sign-in-up section button {
+    height: 46px;
+    padding: 0;
+}
+
+#modal-sign-in-up section input:focus {
+    border-color: #656565;
+}
+
+#modal-sign-in-up section label[for="check"] {
+    margin-bottom: 26px;
+    font-size: 14px;
+    color: #999;
+    display: block;
+}
+
+#modal-sign-in-up section footer {
+    overflow: hidden;
+}
+
+#modal-sign-in-up section button {
+    background: #656565;
+    color: white;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    width: 50%;
+    float: left;
+}
+
+#modal-sign-in-up section button:hover {
+    opacity: 0.8;
+    color: #fff;
+}
+
+#modal-sign-in-up section button:nth-child(1) {
+    border-radius: 3px 0 0 3px;
+    background: #383838;
+}
+
+#modal-sign-in-up section button:nth-child(2) {
+    border-radius: 0 3px 3px 0;
+}
+
+/* MODAL DEFAULT */
+
+.modal-default {
+    background: #262626;
+}
+
+.modal-default h2 {
+    color: #fff;
+    text-align: center;
+}
+
+.modal-default table {
+    width: 90%;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    background-color: transparent;
+    margin: 10px 5%;
+}
+
+.modal-default table td {
+    padding: 10px;
+    background: #272727;
+}
+
+.modal-default table tr:nth-child(1) td {
+    color: white;
+}
+
+.modal-default p {
+    padding: 18px;
+    color: white;
+}
+
+
+.modal-default .separation {
+    display: block;
+    width: 100%;
+    height: 18px;
+}
+
+.modal-default input {
+    border: 1px solid #ffffff;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.modal-default .canvas-privacy {
+    display: block;
+}
+
+
+.modal-default .centered-label {
+    color: #00dbff;
+}
+
+.modal-default section button {
+    background: #656565;
+    color: white;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    width: 100%;
+    float: left;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.modal-default section button:hover {
+    opacity: 0.8;
+    color: #fff;
+}
+
+.modal-default .input-error {
+    color: #ff4238;
+    font-size: 12px;
+    display: none;
+    width: 100%;
+    padding: 0px 40px 4px 40px;
+    text-align: center;
+}
+
+
+/* MANAGE ACCESS MODAL*/
+.waiting-users, .approved-users {
+
+    margin: 10px 0px;
+}
+
+.waiting-users td:nth-child(1) {
+    color: orange;
+}
+
+.approved-users  td:nth-child(1){
+    color: #0cff0c;
+}
+
+
+.button-hide-protected-pixels, .button-hide-protected-pixels-label {
+    cursor: pointer;
+}
+
+
+/* LOADER */
+
+
+.canvas-loading {
+    position: absolute;
+    top: 0;
+    left: 250px ;
+    width: calc(100% - 250px);
+    height: 100%;
+    background-color: #5a5a5a !important;
+    z-index: 500;
+    display: block;
+    min-width: 800px;
+}
+
+
+.canvas-loading span {
+    text-align: center;
+    font-size: 46px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.canvas-actions {
+    position: relative;
+    display: block;
+}
+
+.canvas-actions-loader img {
+    position: relative;
+    top:108px;
+}
+
+.canvas-actions-loader {
+    text-align: center;
+    display: block;
+    position: absolute;
+    top:0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(95, 95, 95, 0.86);
+}
+
+.button-logout {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 10px !important;
+    font-family: "Trebuchet MS";
+}
+
+.nohover:hover {
+    color: white !important;
+}
+
+.account-name {
+    font-size: 24px!important;
+}
+
+.button-cancel {
+    margin-bottom: 15px;
+    display: block;
+}
+
+.canvasListDataInfo {
+    color: #969696;
+    font-size: 12px;
+    display: block;
+}
+
+.canvasListDesc {
+    font-size: 14px;
+    display: block;
+}
+
+
+.sidebar-trigger {
+    display: block;
+    position: absolute;
+    left:250px;
+    height: 36px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            top:0px;
+    padding:0px;
+    z-index:1000;
+
+    cusrsor:pointer !important;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                background-color: #3d3d3d;
+}
+
+.sidebar-trigger img {
+    margin: 8px;
+    padding:0px;
+}
+.sidebar-trigger .closed{
+    display:none;
+}
+
+.canvas-locked  {
+    display: none;
+}
+
+.canvas-preview {
+    display:block;
+    margin: 0px auto 10px auto;
+    background-color: #3d3d3d;
+    width: 500px;
+    height: auto;
+    overflow: hidden;
+    padding: 0;
+    text-align: left;
+    max-height: 200px;
+
+
+}
+.canvasusers .canvas-preview {
+    width: 500px;
+    max-height: 100px;
+}
+
+
+.canvas-preview:hover {
+    background-color: #4c4c4c;
+
+}
+.canvas-preview img {
+    padding: 0;
+    margin: 0;
+
+}
+.canvas-preview .imgCanvas {
+    display:inline-block;
+    position: relative;
+    width: 200px;
+    padding: 0;
+    margin: 0;
+    float: left;
+    background-color: #fff;
+}
+
+.canvasusers .canvas-preview .imgCanvas {
+    width: 100px;
+}
+
+.canvas-preview .infoCanvas {
+    display:inline-block;
+    position: relative;
+    width: 300px;
+    padding: 12px 14px;
+    margin: 0;
+    float: right;
+}
+
+.canvasusers .canvas-preview .infoCanvas {
+    width: 400px;
+}
+
+.canvas-preview .infoCanvas .title {
+    color:#00dbff;
+    font-size: 20px;
+    display: block;
+
+}
+.canvas-preview .infoCanvas .description {
+    color: #dadada;
+    font-size: 14px;
+    display: block;
+    margin-top: 6px;
+}
+.canvas-preview .infoCanvas .size {
+    color: #a8ffa8;
+    font-size: 10px;
+    display: block;
+    margin-top: 6px;
+
+}
+
+
+.canvas-preview .infoCanvas .visibility {
+    color: #dadada;
+    font-size: 12px;
+    display: block;
+    margin-top: 8px;
+}
+.canvas-preview .infoCanvas .visibility .everyone {
+    color: #00d300;
+    font-size: 12px;
+}
+.canvas-preview .infoCanvas .visibility .approval {
+    color: #ff8000;
+    font-size: 12px;
+}
+.canvas-preview .infoCanvas .visibility .private {
+    color: #ff4238;
+    font-size: 12px;
+}
+.canvas-preview .infoCanvas .cooldown {
+    color: #dadada;
+    font-size: 12px;
+    display: block;
+    margin-top: 4px;
+}
+.canvas-preview .infoCanvas .cooldown .none {
+    color: #00d300;
+    font-size: 12px;
+}
+.canvas-preview .infoCanvas .cooldown .yes {
+    color: #ff8000;
+    font-size: 12px;
+}
+
+.canvas-list-texts {
+    text-align: center;
+    color: #a2a2a2;
+}
+
+
+.display-none  {
+    display: none !important;
+}
+
+/*
+     FILE ARCHIVED ON 03:20:27 Feb 09, 2019 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 19:51:34 Aug 07, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 194.359
+  exclusion.robots: 0.119
+  exclusion.robots.policy: 0.112
+  RedisCDXSource: 1.008
+  esindex: 0.007
+  LoadShardBlock: 177.978 (3)
+  PetaboxLoader3.datanode: 184.913 (4)
+  load_resource: 104.083
+  PetaboxLoader3.resolve: 61.784
+*/

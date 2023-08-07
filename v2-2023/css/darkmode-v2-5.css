@@ -1,0 +1,302 @@
+.darkmode #modals .box, .darkmode .box-x {
+
+    background-color: black !important;
+}
+
+.darkmode .box-x {
+
+    border: 2px solid #afafaf;
+}
+
+
+.darkmode #modals .box .blog-bg {
+
+    background-color: black !important;
+}
+
+.darkmode #modals #blog .article {
+
+    background-color: #242424 !important;
+}
+
+
+.darkmode #blog .article h1 a {
+    color: white !important;
+}
+
+.darkmode #blog .article p {
+    color: #d8d8d8 !important;
+}
+
+
+.darkmode .box-sub-menu {
+    color: #e5e5e5 !important;
+    border-bottom: 1px solid #4b4949 !important;
+    border-top: 1px solid #4b4949 !important;
+    background-color: #000000;
+    border-left: 1px solid #4b4949;
+}
+
+
+.darkmode #modals .box > .box-menu {
+    border-bottom: 1px solid #4b4949;
+}
+
+.darkmode #painting-list {
+    background-color: #000000 !important;
+    color: #bbcdce;
+}
+
+.darkmode input, .darkmode textarea {
+    color: white;
+}
+
+.darkmode #modals .box > .box-content, .darkmode .box-x > .box-content-x {
+    color: #bbcdce !important;
+}
+
+
+.darkmode #modals .box > .box-content .input-radio, .darkmode #modals .box > .box-content .input-checkbox {
+    background-color: #262626;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.darkmode #modals .box > .box-content .input-radio:hover, .darkmode #modals .box > .box-content .input-checkbox:hover {
+    background-color: #343434 !important;
+}
+
+.darkmode #modals .box > .box-content .input-radio .content, .darkmode #modals .box > .box-content .input-checkbox .content {
+    color: #bbcdce;
+}
+
+.darkmode #modals .box > .box-content .input-radio > div .input, .darkmode #modals .box > .box-content .input-checkbox > div .input {
+
+    background-color: #4b4949;
+}
+
+.darkmode #modals .box > .box-content .input-radio > div .input div, .darkmode #modals .box > .box-content .input-checkbox > div .input div {
+    background-color: #000000;
+}
+
+.darkmode #modals .box > .box-content .input-radio.selected > div .input div, .darkmode #modals .box > .box-content .input-checkbox.selected > div .input div {
+    background-color: #00b2e1;
+}
+
+.darkmode #modals .box > .box-content .input-radio:hover > div .input div, .darkmode #modals .box > .box-content .input-checkbox:hover > div .input div {
+    background-color: #7d7d7d !important;
+}
+
+.darkmode button.secondary {
+    background-color: #393939;
+}
+
+.darkmode button.secondary:hover {
+    background-color: #585656;
+}
+
+.darkmode #modals .box > .box-content .shift {
+    color: #ffffff;
+}
+
+
+.darkmode .top table tr.stripped, .darkmode .past-owners tr.stripped {
+    background-color: #24292a;
+}
+
+.darkmode .top table tr.stripped-2, .darkmode .past-owners tr.stripped-2 {
+    background-color: #2f3b3f;
+}
+
+.darkmode .big-list a {
+    color: #bbcdce;
+    border: 2px solid #9c9c9c;
+    background-color: #262626;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.darkmode .big-list a:hover {
+    background-color: #343434 !important;
+}
+
+.darkmode .big-list a p {
+    color: #bbcdce !important;
+}
+
+.darkmode .big-list a > div:first-child h1 {
+    color: #bbcdce;
+}
+
+
+.darkmode .big-list a:nth-child(1) > div:first-child h1 {
+    color: #ffbc00;
+}
+
+.darkmode .big-list a:nth-child(2) > div:first-child h1 {
+    color: #f19c74;
+
+}
+
+.darkmode .big-list a:nth-child(3) > div:first-child h1 {
+    color: #dcdcdc;
+}
+
+.darkmode .prem-box, .darkmode .prem-item, .darkmode .prem-coins {
+    color: #bbcdce;
+    background-color: #262626;
+}
+
+.darkmode .prem-item:hover, .darkmode .prem-coins:hover {
+    background-color: #4b4a4a !important;
+}
+
+
+.darkmode .prem-box .header {
+    color: #d8d7d7;
+}
+
+.darkmode .prem-item .title, .darkmode .prem-coins .title, .darkmode .prem-coins .title-bt {
+    color: #d8d7d7;
+}
+
+.darkmode .profile-name {
+    color: white;
+}
+
+.darkmode .guild-name {
+    color: white;
+}
+
+
+.darkmode #social {
+    background-color: #000000 !important;
+    color: #bbcdce;
+}
+
+.darkmode #social table {
+
+    color: #bbcdce;
+}
+
+.darkmode #social .list table tr:hover {
+    background-color: #121414;
+}
+
+.darkmode #menu-buttons > a.grey, .darkmode #menu-buttons-bottom > a.grey, .darkmode #menu-buttons-right-top > a.grey, .darkmode #menu-buttons-right-bottom > a.grey {
+    background-color: #1f2728;
+}
+
+.darkmode .coins-to-claim {
+    background-color: #0d0d0d;
+}
+
+.darkmode .coins-to-claim .current-coins > span {
+    color: white;
+}
+
+.darkmode .guild-ranks > div {
+    color: #bbcdce;
+    background-color: #262626;
+}
+
+
+.darkmode .guild-ranks > div input[type="text"] {
+    color: #bbcdce;
+    background-color: black;
+}
+
+.darkmode .block-request-access-other .reason span {
+    color: white;
+}
+.darkmode #modals .box > .box-menu  {
+    background-color: black;
+    border-top:none!important;
+    border-right:none!important;
+}
+.darkmode #modals .box > .box-menu li a  {
+    background-color: black;
+}
+
+.darkmode .request-row {
+    background-color: #202020;
+}
+
+.darkmode .past-winners table tr.stripped {
+    background-color: #2b2b2b;
+}
+
+.darkmode .generic-table td {
+    background-color: black;
+}
+.darkmode .gold-loot td {
+    background-color: black;
+}
+.darkmode .generic-table tr.stripped, .darkmode .generic-table tr.stripped td {
+    background-color: #2f3b3f!important;
+}
+.darkmode .gold-loot tr.stripped, .darkmode .gold-loot tr.stripped td {
+    background-color: #2f3b3f!important;
+}
+.darkmode .top-gold tr.stripped, .darkmode .top-gold tr.stripped td {
+    background-color: #2f3b3f!important;
+}
+.darkmode .input-text {
+    background-color: #2f3b3f!important;
+}
+
+.darkmode #gold-rush .count {
+    background-color: #2f3b3f!important;
+}
+
+.darkmode .g-ore, .darkmode .g-bar {
+    color: white;
+}
+
+
+.darkmode .ah-all.active, .darkmode .ah-my.active {
+    color: white!important;
+}
+
+.darkmode .gold-hr {
+    border: 1px dashed #1e292c;
+}
+.darkmode .gold-ore-img2-count, .darkmode .gold-bar-img2-count {
+    background-color: #2f3b3f!important;
+}
+
+.darkmode #profile .user-avatar {
+    border-color: #202020;
+}
+
+
+.darkmode #mobileplace > div a {
+    background-color: black;
+}
+
+
+
+.darkmode #mobileplace .mobile-alt {
+    background-color: black;
+}
+
+
+
+
+.darkmode .specialcheck {
+    background-color: #1c566a!important;
+}
+
+
+
+.darkmode .box-sub-menu li.selected, .darkmode .box-sub-menu li:hover {
+    border-bottom: none!important;
+
+}
+
+.darkmode .box-sub-menu li.selected a {
+
+    color: white!important;
+}

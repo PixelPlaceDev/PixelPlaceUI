@@ -1,0 +1,19 @@
+{
+
+  "name": "PixelPlace.io",
+
+  "short_name": "PixelPlace",
+
+  "display": "fullscreen",
+
+  "icons": [{
+
+    "src": "apple-touch-icon.png",
+
+    "sizes": "192x192",
+
+    "type": "image/png"
+
+  }]
+
+}
